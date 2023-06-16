@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
-import { controller, get, post } from './decorators';
-import User, { IUser } from '../models/User';
+import { controller, get, post, bodyValidator, use } from './decorators';
+import { existingUser } from './middlewares';
+import User from '../models/User';
+
 
 @controller('/auth')
 class LoginController {
@@ -15,17 +17,15 @@ class LoginController {
     `);
   }
   @post('/login')
+  @bodyValidator('email', 'password')
+  @use(existingUser)
   async postLogin(req: Request, res: Response) {
     const { email, password } = req.body;
-    if (email && password) {
-      req.session = { loggedIn: true };
-      const user: IUser = await User.create({
-        email,
-        password
-      });
-      console.log(user);
-    } else {
-      res.send('Invalid email or password');
-    }
+    req.session = { loggedIn: true };
+    await User.create({
+      email,
+      password
+    });
+    res.redirect('/secret');
   };
 }

@@ -12,7 +12,10 @@ function bodyValidators(keys: string[]): RequestHandler {
     }
     for (let key of keys) {
       if (!req.body[key]) {
-        res.status(422).send(`Missing property ${key}`);
+        res.status(422).send(`Please enter your ${key}`);
+        return;
+      } else if (req.body[key] === 'email') {
+        res.send('Email already in use');
         return;
       }
     }

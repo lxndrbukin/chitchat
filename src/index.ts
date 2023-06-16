@@ -4,6 +4,8 @@ import cookieSession from 'cookie-session';
 import mongoose from 'mongoose';
 import { Router } from './router/Router';
 import { keys } from './services/keys';
+
+import './controllers/RootController';
 import './controllers/LoginController';
 
 import './models/User';

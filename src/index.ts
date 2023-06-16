@@ -6,7 +6,8 @@ import { Router } from './router/Router';
 import { keys } from './services/keys';
 
 import './controllers/RootController';
-import './controllers/LoginController';
+import './controllers/AuthController';
+import './controllers/UserController';
 
 import './models/User';
 

@@ -24,7 +24,7 @@ class AuthController {
     const user = await User.findOne({ email, password });
     if (user) {
       req.session = { id: user.id };
-      res.redirect('/profile/details');
+      res.redirect('/profile/edit');
       return;
     }
     res.send('User not found');

@@ -10,6 +10,7 @@ import './controllers/AuthController';
 import './controllers/UserController';
 
 import './models/User';
+import './models/FriendRequests';
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));

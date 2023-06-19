@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { controller, get, use } from './decorators';
 
 function requireAuth(req: Request, res: Response, next: NextFunction): void {
-  if (req.session && req.session.loggedIn) {
+  if (req.session) {
     next();
     return;
   }

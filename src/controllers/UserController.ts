@@ -64,16 +64,17 @@ class UserController {
   @post('/friend_requests')
   async sendFriendRequest(req: Request, res: Response) {
     if (req.session) {
-      console.log('session');
-      const userReqs = await FriendReqs.findOne({ userId: req.session.id });
-      if (userReqs) {
-        console.log('reqs');
-        await FriendReqs.updateOne({ userId: req.session.id }, { $push: { sent: req.body.userId } });
-        await FriendReqs.updateOne({ userId: req.body.userId }, { $push: { received: req.session.id } });
-      } else {
-        console.log('no reqs');
+      const currentUserReqs = await FriendReqs.findOne({ userId: req.session.id });
+      const userReqs = await FriendReqs.findOne({ userId: req.body.userId });
+      if (!currentUserReqs && !userReqs) {
         await FriendReqs.create({ userId: req.session.id, sent: [req.body.userId] });
         await FriendReqs.create({ userId: req.body.userId, received: [req.session.id] });
+      } else if (currentUserReqs && !userReqs) {
+        await currentUserReqs.updateOne({ $push: { sent: [req.body.userId] } });
+        await FriendReqs.create({ userId: req.body.userId, received: [req.session.id] });
+      } else if (!currentUserReqs && userReqs) {
+        await FriendReqs.create({ userId: req.session.id, sent: [req.body.userId] });
+        await userReqs.updateOne({ $push: { received: req.session.id } });
       }
     }
     res.redirect('/profile/users');

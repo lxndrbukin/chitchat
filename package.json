@@ -23,5 +23,8 @@
     "mongoose": "^7.3.0",
     "nodemon": "^2.0.22",
     "reflect-metadata": "^0.1.13"
+  },
+  "devDependencies": {
+    "typescript": "^5.1.3"
   }
 }

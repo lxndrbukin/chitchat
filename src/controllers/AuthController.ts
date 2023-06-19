@@ -1,7 +1,9 @@
 import { Request, Response } from 'express';
 import { controller, get, post, bodyValidator, use } from './decorators';
 import { existingUser } from './middlewares';
+import { createPassword } from './helpers';
 import User from '../models/User';
+import { create } from 'domain';
 
 
 @controller('/auth')
@@ -48,7 +50,7 @@ class AuthController {
     const { email, password } = req.body;
     const user = await User.create({
       email,
-      password
+      password: createPassword(password)
     });
     req.session = { id: user.id };
     res.redirect('/secret');

@@ -1,2 +1,2 @@
-export * from './existingUser';
+export * from './checkUser';
 export * from './requireAuth';

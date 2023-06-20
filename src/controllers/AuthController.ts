@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import { controller, get, post, bodyValidator, use } from './decorators';
-import { existingUser } from './middlewares';
+import { checkUser } from './middlewares';
 import { createPassword } from './helpers';
+import { Operations } from './middlewares';
 import User from '../models/User';
-import { create } from 'domain';
 
 
 @controller('/auth')
@@ -21,15 +21,9 @@ class AuthController {
 
   @post('/login')
   @bodyValidator('email', 'password')
+  @use(checkUser(Operations.login))
   async postLogin(req: Request, res: Response) {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email, password });
-    if (user) {
-      req.session = { id: user.id };
-      res.redirect('/profile/edit');
-      return;
-    }
-    res.send('User not found');
+    res.redirect('/');
   }
 
   @get('/signup')
@@ -45,12 +39,12 @@ class AuthController {
 
   @post('/signup')
   @bodyValidator('email', 'password')
-  @use(existingUser)
+  @use(checkUser(Operations.signup))
   async postSignup(req: Request, res: Response) {
     const { email, password } = req.body;
     const user = await User.create({
       email,
-      password: createPassword(password)
+      password: await createPassword(password)
     });
     req.session = { id: user.id };
     res.redirect('/secret');

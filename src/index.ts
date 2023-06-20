@@ -12,6 +12,7 @@ import './controllers/APIController';
 
 import './models/User';
 import './models/FriendRequests';
+import './models/Chat';
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));

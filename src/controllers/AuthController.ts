@@ -2,8 +2,8 @@ import { Request, Response } from 'express';
 import { controller, get, post, bodyValidator, use } from './decorators';
 import { checkUser } from './middlewares';
 import { createPassword } from './helpers';
-import { Operations } from './middlewares';
 import User from '../models/User';
+import { Operations } from './middlewares';
 
 @controller('/auth')
 class AuthController {
@@ -20,7 +20,7 @@ class AuthController {
 
   @post('/login')
   @bodyValidator('email', 'password')
-  @use(checkUser(Operations.login))
+  @use(checkUser(Operations.Login))
   async postLogin(req: Request, res: Response) {
     res.redirect('/');
   }
@@ -38,7 +38,7 @@ class AuthController {
 
   @post('/signup')
   @bodyValidator('email', 'password')
-  @use(checkUser(Operations.signup))
+  @use(checkUser(Operations.Signup))
   async postSignup(req: Request, res: Response) {
     const { email, password } = req.body;
     const user = await User.create({

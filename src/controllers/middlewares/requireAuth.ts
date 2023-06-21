@@ -5,5 +5,5 @@ export function requireAuth(req: Request, res: Response, next: NextFunction) {
     next();
     return;
   }
-  res.status(403).json('Not permitted');
+  res.status(403).json({ message: 'Access denied' });
 }

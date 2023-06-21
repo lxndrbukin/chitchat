@@ -5,7 +5,6 @@ import { createPassword } from './helpers';
 import { Operations } from './middlewares';
 import User from '../models/User';
 
-
 @controller('/auth')
 class AuthController {
   @get('/login')
@@ -46,7 +45,7 @@ class AuthController {
       email,
       password: await createPassword(password)
     });
-    req.session = { id: user.id };
+    req.session = { id: user.id, role: user.role };
     res.redirect('/secret');
   };
 

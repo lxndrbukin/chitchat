@@ -1,14 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { controller, get, use } from './decorators';
-
-function requireAuth(req: Request, res: Response, next: NextFunction): void {
-  if (req.session) {
-    next();
-    return;
-  }
-  res.status(403);
-  res.send('Not permitted');
-}
+import { requireAuth, checkAccess } from './middlewares';
+import { UserRoles } from './types/types';
 
 @controller('')
 class RootController {
@@ -19,6 +12,7 @@ class RootController {
 
   @get('/secret')
   @use(requireAuth)
+  @use(checkAccess([UserRoles.Admin, UserRoles.Moderator]))
   getSecret(req: Request, res: Response) {
     res.send('Welcome to the secret page');
   }

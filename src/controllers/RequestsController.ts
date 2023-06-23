@@ -1,20 +1,14 @@
 import { Request, Response } from 'express';
-import { controller, get, post, use } from './decorators';
-import User, { IUser } from '../models/User';
+import { controller, use, get, post } from './decorators';
+import { requireAuth, checkAccess } from './middlewares';
+import { UserRoles } from './types';
 import FriendReqs from '../models/FriendRequests';
-import { requireAuth } from './middlewares';
 
 @controller('/_api')
-class APIController {
-  @get('/users')
-  @use(requireAuth)
-  async getAllUsers(req: Request, res: Response) {
-    const users: IUser[] = await User.find().select('-password -__v');
-    res.send(users);
-  }
-
+class RequestsController {
   @get('/friend_requests')
   @use(requireAuth)
+  @use(checkAccess([UserRoles.Admin, UserRoles.Moderator]))
   async getFriendRequests(req: Request, res: Response) {
     if (req.session) {
       const currentUserReqs = await FriendReqs.find({ userId: req.session.id }).select('-_id -__v');

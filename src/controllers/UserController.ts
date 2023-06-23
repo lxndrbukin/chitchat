@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
-import { controller, get } from './decorators';
-import User from '../models/User';
+import { controller, use, get } from './decorators';
+import { requireAuth } from './middlewares';
+import User, { IUser } from '../models/User';
 
 @controller('/profile')
 class UserController {
@@ -14,5 +15,12 @@ class UserController {
     } else {
       res.redirect('/');
     }
+  }
+
+  @get('/users')
+  @use(requireAuth)
+  async getAllUsers(req: Request, res: Response) {
+    const users: IUser[] = await User.find().select('-password -__v');
+    res.send(users);
   }
 }

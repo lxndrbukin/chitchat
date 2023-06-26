@@ -8,7 +8,7 @@ import { keys } from './services/keys';
 import './controllers/RootController';
 import './controllers/AuthController';
 import './controllers/UserController';
-import './controllers/APIController';
+import './controllers/RequestsController';
 
 import './models/User';
 import './models/FriendRequests';

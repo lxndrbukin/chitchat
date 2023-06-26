@@ -4,6 +4,7 @@ import { checkUser } from './middlewares';
 import { createPassword } from './helpers';
 import User from '../models/User';
 import { Operations } from './middlewares';
+import { UserRoles } from './types';
 
 @controller('/auth')
 class AuthController {
@@ -42,8 +43,13 @@ class AuthController {
   async postSignup(req: Request, res: Response) {
     const { email, password } = req.body;
     const user = await User.create({
+      fullName: {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName
+      },
       email,
-      password: await createPassword(password)
+      password: await createPassword(password),
+      role: UserRoles.User
     });
     req.session = { id: user.id, role: user.role };
     res.redirect('/secret');

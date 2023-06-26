@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { controller, get, use } from './decorators';
 import { requireAuth, checkAccess } from './middlewares';
-import { UserRoles } from './types/types';
+import { UserRoles } from './types';
 
 @controller('')
 class RootController {

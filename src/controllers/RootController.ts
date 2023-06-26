@@ -9,11 +9,4 @@ class RootController {
   getRoot(req: Request, res: Response) {
     res.send('Hi there');
   }
-
-  @get('/secret')
-  @use(requireAuth)
-  @use(checkAccess([UserRoles.Admin, UserRoles.Moderator]))
-  getSecret(req: Request, res: Response) {
-    res.send('Welcome to the secret page');
-  }
 }

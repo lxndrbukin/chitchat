@@ -1,0 +1,65 @@
+@import '../../assets//styling/variables.scss';
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  box-sizing: border-box;
+  padding: $spacing-sm $spacing-lg;
+
+  .header-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .logo {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-decoration: none;
+      color: $white;
+    }
+
+    .header-menu {
+      display: flex;
+      list-style: none;
+      padding: 0;
+
+      .header-btn {
+        padding: $spacing-sm $spacing-md;
+        box-sizing: border-box;
+        color: $grey;
+
+        a {
+          color: $grey;
+          text-decoration: none;
+        }
+      }
+    }
+
+    .search {
+      padding-left: $spacing-md;
+      display: flex;
+      justify-content: center;
+
+      button {
+        background-color: transparent;
+        border: none;
+        font-size: 1rem;
+        color: $grey;
+        cursor: pointer;
+      }
+
+      input {
+        background-color: transparent;
+        border: none;
+        color: $white;
+
+        &:focus {
+          outline: none;
+        }
+      }
+    }
+  }
+}

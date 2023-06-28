@@ -3,17 +3,16 @@ import { controller, use, get } from './decorators';
 import { requireAuth } from './middlewares';
 import User, { IUser } from '../models/User';
 
-@controller('/profile')
+@controller('/_api')
 class UserController {
-  @get('/')
+  @get('/current_user')
+  @use(requireAuth)
   async getCurrentUser(req: Request, res: Response) {
     if (req.session && req.session.id) {
-      const currentUser = await User.findOne({ _id: req.session.id });
+      const currentUser = await User.findOne({ _id: req.session.id }).select('-password -__v');
       if (currentUser) {
-        res.send(currentUser.email);
+        res.send(currentUser);
       }
-    } else {
-      res.redirect('/');
     }
   }
 

@@ -6,5 +6,7 @@ export function requireAuth(req: Request, res: Response, next: NextFunction) {
     next();
     return;
   }
-  res.status(403).send({ message: ErrorMessages.AccessDenied });
+  console.log('nope');
+  res.send({ message: ErrorMessages.AccessDenied });
+  return;
 }

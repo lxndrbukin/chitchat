@@ -1,63 +1,89 @@
 @import '../../assets//styling/variables.scss';
 
-.header {
-  display: flex;
-  justify-content: space-between;
+.header-wrapper {
   width: 100%;
-  box-sizing: border-box;
-  padding: $spacing-sm $spacing-lg;
+  background-color: $dark-grey-two;
+  display: flex;
+  justify-content: center;
 
-  .header-section {
+  .header {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: $max-width;
+    box-sizing: border-box;
+    padding: 0 $spacing-lg;
+    height: 50px;
 
-    .logo {
+    .header-section {
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
-      text-decoration: none;
-      color: $white;
-    }
 
-    .header-menu {
-      display: flex;
-      list-style: none;
-      padding: 0;
+      .logo {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
+        color: $white;
+        background-color: $blue-two;
+        padding: $spacing-sm;
+        border-radius: 7px;
+      }
 
-      .header-btn {
-        padding: $spacing-sm $spacing-md;
-        box-sizing: border-box;
-        color: $grey;
+      .header-menu {
+        display: flex;
+        list-style: none;
+        padding: 0;
 
-        a {
-          color: $grey;
-          text-decoration: none;
+        .header-btn {
+          padding: $spacing-sm $spacing-md;
+          box-sizing: border-box;
+          color: $light-grey;
+          display: flex;
+          align-items: center;
+
+          a {
+            color: $light-grey;
+            text-decoration: none;
+          }
+
+          .header-avatar {
+            border-radius: 50%;
+          }
         }
       }
-    }
 
-    .search {
-      padding-left: $spacing-md;
-      display: flex;
-      justify-content: center;
+      .search {
+        padding-left: $spacing-md;
+        display: flex;
+        justify-content: center;
+        background-color: $grey;
+        padding: $spacing-sm;
+        box-sizing: border-box;
+        border-radius: 7px;
 
-      button {
-        background-color: transparent;
-        border: none;
-        font-size: 1rem;
-        color: $grey;
-        cursor: pointer;
-      }
+        button {
+          background-color: transparent;
+          border: none;
+          font-size: 1rem;
+          color: $light-grey;
+          cursor: pointer;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: $spacing-xs;
+        }
 
-      input {
-        background-color: transparent;
-        border: none;
-        color: $white;
+        input {
+          background-color: transparent;
+          border: none;
+          color: $white;
 
-        &:focus {
-          outline: none;
+          &:focus {
+            outline: none;
+          }
         }
       }
     }

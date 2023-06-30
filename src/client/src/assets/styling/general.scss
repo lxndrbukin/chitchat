@@ -1,0 +1,10 @@
+@import '../styling/variables.scss';
+
+// GENERAL CLASSES
+.box {
+  background-color: $dark-grey-two;
+  padding: $spacing-md $spacing-lg;
+  border-radius: 7px;
+}
+
+.button {}

@@ -8,7 +8,6 @@ import FriendReqs from '../models/FriendRequests';
 class RequestsController {
   @get('/friend_requests')
   @use(requireAuth)
-  @use(checkAccess([UserRoles.Admin, UserRoles.Moderator]))
   async getFriendRequests(req: Request, res: Response) {
     if (req.session) {
       const currentUserReqs = await FriendReqs.find({ userId: req.session.id }).select('-_id -__v');

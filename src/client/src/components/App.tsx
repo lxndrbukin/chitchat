@@ -2,7 +2,6 @@ import './App.scss';
 import { Routes, Route } from 'react-router-dom';
 import React from 'react';
 import { Header } from './Header/Header';
-import { Footer } from './Footer/Footer';
 import { Profile } from './Profile/Profile';
 
 export class App extends React.Component {
@@ -15,7 +14,6 @@ export class App extends React.Component {
             <Route path='/profile' element={<Profile />} />
           </Routes>
         </div>
-        <Footer />
       </div>
     );
   }

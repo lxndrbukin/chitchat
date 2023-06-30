@@ -1,0 +1,32 @@
+@import '../../assets/styling/variables.scss';
+
+.profile {
+
+  .profile-section {
+    width: 100%;
+  }
+
+  .short-info {
+    .short-info-header {
+      display: flex;
+
+      .avatar {
+        width: 150px;
+        border-radius: 50%;
+      }
+
+      .short-info-data {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        align-self: flex-end;
+
+        .full-name {
+          font-size: 2rem;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}

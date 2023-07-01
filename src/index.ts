@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cookieSession from 'cookie-session';
 import mongoose from 'mongoose';
+import cors from 'cors';
 import { Router } from './router/Router';
 import { keys } from './services/keys';
 
@@ -15,6 +16,7 @@ import './models/FriendRequests';
 import './models/Chat';
 
 const app = express();
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieSession({
   keys: ['123safa'],

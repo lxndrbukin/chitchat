@@ -7,12 +7,13 @@ import { MetadataKeys } from './MetadataKeys';
 function bodyValidators(keys: string[]): RequestHandler {
   return function (req: Request, res: Response, next: NextFunction) {
     if (!req.body) {
-      res.status(422).send('Invalid request');
+      res.status(422).json({ message: 'Invalid request' });
       return;
     }
     for (let key of keys) {
       if (!req.body[key]) {
-        res.status(422).send(`Please enter your ${key}`);
+
+        res.status(422).json({ message: `Please enter your ${key}` });
         return;
       } else if (req.body[key] === 'email') {
         res.send('Email already in use');

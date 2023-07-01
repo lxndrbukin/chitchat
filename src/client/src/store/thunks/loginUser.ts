@@ -11,4 +11,5 @@ export const loginUser = createAsyncThunk('currentUser/loginUser', async ({ emai
     email,
     password
   });
+  return;
 });

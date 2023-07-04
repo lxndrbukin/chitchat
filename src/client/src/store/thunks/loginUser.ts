@@ -7,9 +7,9 @@ interface LoginDetails {
 }
 
 export const loginUser = createAsyncThunk('currentUser/loginUser', async ({ email, password }: LoginDetails) => {
-  await axios.post('/auth/login', {
-    email,
-    password
+  const res = await axios.post('/auth/login', {
+    email: email,
+    password: password
   });
-  return;
+  return res.data;
 });

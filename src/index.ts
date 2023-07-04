@@ -16,12 +16,12 @@ import './models/FriendRequests';
 import './models/Chat';
 
 const app = express();
-app.use(cors());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(cookieSession({
   keys: ['123safa'],
 }));
 app.use(Router.getInstance());
+app.use(cors());
 
 mongoose
   .connect(keys.mongoDB)

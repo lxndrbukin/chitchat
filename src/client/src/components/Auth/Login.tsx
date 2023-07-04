@@ -35,6 +35,7 @@ class _Login extends React.Component<LoginFormProps, LoginFormState> {
   render(): JSX.Element {
     return (
       <form
+        method='POST'
         className='auth box'
         onSubmit={(e) => {
           e.preventDefault();

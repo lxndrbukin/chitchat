@@ -11,12 +11,14 @@ export interface UserData {
 
 export interface UserState {
   loading: boolean;
+  loggedIn: boolean;
   userData: UserData | {};
   error: string | undefined;
 }
 
 const initialState: UserState = {
   loading: false,
+  loggedIn: false,
   userData: {},
   error: undefined
 };
@@ -27,9 +29,11 @@ export const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder): void => {
     builder.addCase(getCurrentUser.fulfilled, (state: UserState, action: PayloadAction<UserState>): void => {
+      state.loggedIn = true;
       state.userData = action.payload;
     });
     builder.addCase(loginUser.fulfilled, (state: UserState, action: PayloadAction<UserState>): void => {
+      state.loggedIn = true;
       state.userData = action.payload;
     });
   }

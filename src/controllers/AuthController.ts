@@ -22,9 +22,7 @@ class AuthController {
   @post('/login')
   @bodyValidator('email', 'password')
   @use(checkUser(Operations.Login))
-  async postLogin(req: Request, res: Response) {
-    res.redirect('/');
-  }
+  async postLogin(req: Request, res: Response) { }
 
   @get('/signup')
   getSignup(req: Request, res: Response) {

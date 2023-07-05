@@ -2,9 +2,7 @@ import './Profile.scss';
 import React from 'react';
 import { ProfileShortInfo } from './ProfileShortInfo';
 import { connect } from 'react-redux';
-import { getCurrentUser } from '../../store';
-import { RootState } from '../../store';
-import { UserState } from '../../store/slices/userSlice';
+import { getCurrentUser, RootState, UserState } from '../../store';
 
 interface ProfileProps {
   currentUser: UserState;

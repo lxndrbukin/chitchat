@@ -28,8 +28,13 @@ export function checkUser(operation: Operations) {
           return;
         }
         req.session = { id: user.id, role: user.role };
+
       }
+      return res.send({
+        _id: user?.id,
+        email: user?.email,
+        role: user?.role
+      });
     }
-    next();
   };
 }

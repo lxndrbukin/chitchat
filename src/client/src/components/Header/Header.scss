@@ -49,9 +49,38 @@
             text-decoration: none;
           }
 
+
+        }
+      }
+
+      .header-profile {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+
+        .header-avatar-frame {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+          height: 50px;
+          width: 68px;
+
+          &:hover {
+            background-color: $grey;
+          }
+
           .header-avatar {
             border-radius: 50%;
           }
+        }
+
+        .profile-menu {
+          position: absolute;
+          top: 52px;
+          right: 0;
+          background-color: $dark-grey-two;
+          padding: $spacing-lg;
         }
       }
 

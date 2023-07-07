@@ -1,5 +1,5 @@
 import './Header.scss';
-import React from 'react';
+import React, { MouseEventHandler } from 'react';
 import { connect } from 'react-redux';
 import { RootState, UserState, getCurrentUser } from '../../store';
 import { Link } from 'react-router-dom';
@@ -18,43 +18,40 @@ interface HeaderState {
 }
 
 class _Header extends React.Component<HeaderProps, HeaderState> {
-  private profileRef: React.RefObject<HTMLDivElement>;
+  private profileFrame: React.RefObject<HTMLDivElement>;
+  private profileMenu: React.RefObject<HTMLDivElement>;
   constructor(props: HeaderProps) {
     super(props);
-    this.profileRef = React.createRef<HTMLDivElement>();
+    this.profileFrame = React.createRef<HTMLDivElement>();
+    this.profileMenu = React.createRef<HTMLDivElement>();
     this.state = {
       showProfileMenu: false,
     };
   }
 
-  handleProfileClick = (): void => {
+  handleInsideClick = () => {
     this.setState({ showProfileMenu: !this.state.showProfileMenu });
-    console.log(this.profileRef.current);
   };
 
-  componentDidMount() {
-    if (this.profileRef && this.profileRef.current) {
-      this.profileRef.current.addEventListener(
-        'click',
-        this.handleProfileClick
-      );
+  handleOutsideClick = (e: MouseEvent): void => {
+    if (
+      this.profileFrame &&
+      !this.profileFrame.current?.contains(e.target as Element) &&
+      !this.profileMenu.current?.contains(e.target as Element)
+    ) {
+      this.setState({ showProfileMenu: false });
     }
-    this.props.getCurrentUser();
-  }
+  };
 
-  componentWillUnmount(): void {
-    if (this.profileRef && this.profileRef.current) {
-      this.profileRef.current.removeEventListener(
-        'click',
-        this.handleProfileClick
-      );
-    }
-  }
+  componentDidMount = (): void => {
+    document.addEventListener('click', this.handleOutsideClick);
+    this.props.getCurrentUser();
+  };
 
   showProfileMenu(): JSX.Element | null {
     if (this.state.showProfileMenu) {
       return (
-        <div className='profile-menu'>
+        <div ref={this.profileMenu} className='profile-menu'>
           <ul className='profile-menu-links'>
             <li>
               <Link to='/profile'>Profile</Link>
@@ -100,7 +97,15 @@ class _Header extends React.Component<HeaderProps, HeaderState> {
         <ul className='header-menu'>
           <li className='header-btn'>
             <div className='header-profile'>
-              <div ref={this.profileRef} className='header-avatar-frame'>
+              <div
+                ref={this.profileFrame}
+                onClick={() => {
+                  this.setState({
+                    showProfileMenu: !this.state.showProfileMenu,
+                  });
+                }}
+                className='header-avatar-frame'
+              >
                 <img
                   className='header-avatar'
                   src='https://hwchamber.co.uk/wp-content/uploads/2022/04/avatar-placeholder.gif'

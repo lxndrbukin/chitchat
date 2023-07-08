@@ -12,7 +12,6 @@ interface ProfileProps {
 class _Profile extends React.Component<ProfileProps> {
   componentDidMount(): void {
     this.props.getCurrentUser();
-    console.log(this.props.currentUser);
   }
 
   render(): JSX.Element {

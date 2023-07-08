@@ -1,7 +1,7 @@
 import './Header.scss';
-import React, { MouseEventHandler } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import { RootState, UserState, getCurrentUser } from '../../store';
+import { RootState, UserState, getCurrentUser, logoutUser } from '../../store';
 import { Link } from 'react-router-dom';
 import { RiSearch2Line } from 'react-icons/ri';
 import { FiUsers, FiLogIn } from 'react-icons/fi';
@@ -11,6 +11,7 @@ import { BiChevronDown } from 'react-icons/bi';
 interface HeaderProps {
   currentUser: UserState;
   getCurrentUser: Function;
+  logoutUser: Function;
 }
 
 interface HeaderState {
@@ -28,6 +29,10 @@ class _Header extends React.Component<HeaderProps, HeaderState> {
       showProfileMenu: false,
     };
   }
+
+  logoutUser = (): void => {
+    this.props.logoutUser();
+  };
 
   handleInsideClick = () => {
     this.setState({ showProfileMenu: !this.state.showProfileMenu });
@@ -60,7 +65,7 @@ class _Header extends React.Component<HeaderProps, HeaderState> {
               <Link to='/settings'>Settings</Link>
             </li>
             <li>
-              <Link to=''>Logout</Link>
+              <button onClick={this.logoutUser}>Logout</button>
             </li>
           </ul>
         </div>
@@ -168,4 +173,6 @@ const mapStateToProps = ({
   };
 };
 
-export const Header = connect(mapStateToProps, { getCurrentUser })(_Header);
+export const Header = connect(mapStateToProps, { getCurrentUser, logoutUser })(
+  _Header
+);

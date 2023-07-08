@@ -1,8 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { RootState } from '../../store';
+import { UserState } from '../../store';
 import { Link } from 'react-router-dom';
 import { Button } from '../../assets/components/Button';
 
-export class ProfileShortInfo extends React.Component {
+class _ProfileShortInfo extends React.Component {
   render(): JSX.Element {
     return (
       <div className='short-info box'>
@@ -29,3 +32,13 @@ export class ProfileShortInfo extends React.Component {
     );
   }
 }
+
+const mapStateToProps = ({
+  currentUser,
+}: RootState): { currentUser: UserState } => {
+  return {
+    currentUser,
+  };
+};
+
+export const ProfileShortInfo = connect(mapStateToProps)(_ProfileShortInfo);

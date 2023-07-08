@@ -2,11 +2,16 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { getCurrentUser } from '../thunks/getCurrentUser';
 import { loginUser } from '../thunks/loginUser';
+import { logoutUser } from '../thunks/logoutUser';
 
 export interface UserData {
   _id: string,
   email: string,
   role: string;
+}
+
+export interface ErrorMessage {
+  message: string;
 }
 
 export interface UserState {
@@ -29,11 +34,24 @@ export const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder): void => {
     builder.addCase(getCurrentUser.fulfilled, (state: UserState, action: PayloadAction<UserState>): void => {
+      state.loading = false;
+      if (action.payload.error) {
+        state.error = action.payload.error;
+        return;
+      }
       state.loggedIn = true;
       state.userData = action.payload;
     });
+    builder.addCase(getCurrentUser.pending, (state: UserState, action: PayloadAction<void>): void => {
+      state.loading = true;
+      state.loggedIn = false;
+    });
     builder.addCase(loginUser.fulfilled, (state: UserState, action: PayloadAction<UserState>): void => {
       state.loggedIn = true;
+      state.userData = action.payload;
+    });
+    builder.addCase(logoutUser.fulfilled, (state: UserState, action: PayloadAction<object>): void => {
+      state.loggedIn = false;
       state.userData = action.payload;
     });
   }

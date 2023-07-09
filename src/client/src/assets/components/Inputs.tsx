@@ -4,16 +4,23 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
   name: string;
   value?: string;
-  emptyFields: {
-    [key: string]: boolean | null;
+  empty: {
+    [key: string]: boolean;
   };
   disabled?: boolean;
   transparent?: boolean;
   type?: string;
-  showErrorMessage: Function;
+  message: string;
 }
 
 export class Input extends React.Component<InputProps> {
+  showErrorMessage = (): JSX.Element | null => {
+    if (this.props.empty && this.props.empty[this.props.name]) {
+      return <div className='error-msg'>{this.props.message}</div>;
+    }
+    return null;
+  };
+
   render(): JSX.Element {
     const { ...rest } = this.props;
     return (
@@ -21,9 +28,7 @@ export class Input extends React.Component<InputProps> {
         <label>{this.props.label}</label>
         <div
           className={`input-container ${
-            this.props.emptyFields && this.props.emptyFields[this.props.name]
-              ? 'error'
-              : ''
+            this.props.empty && this.props.empty[this.props.name] ? 'error' : ''
           } ${this.props.disabled ? 'disabled' : ''}${
             this.props.transparent ? 'transparent' : ''
           }`}
@@ -35,7 +40,7 @@ export class Input extends React.Component<InputProps> {
             value={this.props.value}
           />
         </div>
-        {this.props.showErrorMessage()}
+        {this.showErrorMessage()}
       </div>
     );
   }

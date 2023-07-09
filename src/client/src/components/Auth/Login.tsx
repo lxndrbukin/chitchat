@@ -1,5 +1,6 @@
 import './Auth.scss';
 import React from 'react';
+import { redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { loginUser } from '../../store';
 import { Input } from '../../assets/components/Inputs';
@@ -16,16 +17,26 @@ interface LoginFormProps {
 
 interface LoginFormState {
   fieldValues: {
-    [key: string]: string | null;
+    [key: string]: string;
   };
-  emptyFields: {
-    [key: string]: boolean | null;
+  empty: {
+    [key: string]: boolean;
   };
 }
 
 class _Login extends React.Component<LoginFormProps, LoginFormState> {
   constructor(props: LoginFormProps) {
     super(props);
+    this.state = {
+      fieldValues: {
+        email: '',
+        password: '',
+      },
+      empty: {
+        email: false,
+        password: false,
+      },
+    };
   }
 
   handleOnChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -35,18 +46,19 @@ class _Login extends React.Component<LoginFormProps, LoginFormState> {
   };
 
   handleOnBlur = (e: React.FocusEvent<HTMLInputElement, Element>): void => {
-    const { emptyFields } = this.state;
+    const { empty } = this.state;
     if (e.target.value === '') {
-      emptyFields[e.target.name] = true;
-      this.setState({ emptyFields });
+      empty[e.target.name] = true;
+      this.setState({ empty });
       return;
     }
-    emptyFields[e.target.name] = null;
-    this.setState({ emptyFields });
+    empty[e.target.name] = false;
+    this.setState({ empty });
   };
 
-  onFormSubmit = (formValues: FormProps): void => {
+  onFormSubmit = (formValues: FormProps): Response => {
     this.props.loginUser(formValues);
+    return redirect('/');
   };
 
   render(): JSX.Element {
@@ -70,8 +82,8 @@ class _Login extends React.Component<LoginFormProps, LoginFormState> {
             placeholder='Email'
             onChange={this.handleOnChange}
             onBlur={this.handleOnBlur}
-            emptyFields={this.state ? this.state.emptyFields : {}}
-            showErrorMessage={() => console.log('Error')}
+            empty={this.state ? this.state.empty : {}}
+            message={'Error'}
           />
           <Input
             name='password'
@@ -79,8 +91,8 @@ class _Login extends React.Component<LoginFormProps, LoginFormState> {
             placeholder='Password'
             onChange={this.handleOnChange}
             onBlur={this.handleOnBlur}
-            emptyFields={this.state ? this.state.emptyFields : {}}
-            showErrorMessage={() => console.log('Error')}
+            empty={this.state ? this.state.empty : {}}
+            message={'Error'}
           />
           <Button buttonType='primary'>Submit</Button>
         </form>

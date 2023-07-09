@@ -56,6 +56,6 @@ class AuthController {
   @get('/logout')
   getLogout(req: Request, res: Response) {
     req.session = null;
-    res.redirect('/');
+    res.send(req.session);
   }
 }

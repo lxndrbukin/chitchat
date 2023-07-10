@@ -39,11 +39,11 @@ class AuthController {
   @bodyValidator('email', 'password')
   @use(checkUser(Operations.Signup))
   async postSignup(req: Request, res: Response) {
-    const { email, password } = req.body;
+    const { email, password, firstName, lastName } = req.body;
     const user = await User.create({
       fullName: {
-        firstName: req.body.firstName,
-        lastName: req.body.lastName
+        firstName,
+        lastName
       },
       email,
       password: await createPassword(password),

@@ -3,6 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { getCurrentUser } from '../thunks/getCurrentUser';
 import { loginUser } from '../thunks/loginUser';
 import { logoutUser } from '../thunks/logoutUser';
+import { signupUser } from '../thunks/signupUser';
 
 export interface UserData {
   _id: string,
@@ -42,7 +43,7 @@ export const userSlice = createSlice({
       state.loggedIn = true;
       state.userData = action.payload;
     });
-    builder.addCase(getCurrentUser.pending, (state: UserState, action: PayloadAction<void>): void => {
+    builder.addCase(getCurrentUser.pending, (state: UserState): void => {
       state.loading = true;
       state.loggedIn = false;
     });
@@ -52,6 +53,15 @@ export const userSlice = createSlice({
     });
     builder.addCase(logoutUser.fulfilled, (state: UserState, action: PayloadAction<object>): void => {
       state.loggedIn = false;
+      state.userData = action.payload;
+    });
+    builder.addCase(signupUser.fulfilled, (state: UserState, action: PayloadAction<UserState>): void => {
+      state.loading = false;
+      if (action.payload.error) {
+        state.error = action.payload.error;
+        return;
+      }
+      state.loggedIn = true;
       state.userData = action.payload;
     });
   }

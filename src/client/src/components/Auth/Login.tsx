@@ -1,30 +1,13 @@
 import './Auth.scss';
 import React from 'react';
+import { LoginFormProps, FormState, FormValues } from './types';
 import { redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { loginUser } from '../../store';
 import { Input } from '../../assets/components/Inputs';
 import { Button } from '../../assets/components/Button';
 
-interface FormProps {
-  email: string;
-  password: string;
-}
-
-interface LoginFormProps {
-  loginUser: Function;
-}
-
-interface LoginFormState {
-  fieldValues: {
-    [key: string]: string;
-  };
-  empty: {
-    [key: string]: boolean;
-  };
-}
-
-class _Login extends React.Component<LoginFormProps, LoginFormState> {
+class _Login extends React.Component<LoginFormProps, FormState> {
   constructor(props: LoginFormProps) {
     super(props);
     this.state = {
@@ -56,12 +39,12 @@ class _Login extends React.Component<LoginFormProps, LoginFormState> {
     this.setState({ empty });
   };
 
-  onFormSubmit = (formValues: FormProps): Response => {
+  onFormSubmit = (formValues: FormValues): void => {
     this.props.loginUser(formValues);
-    return redirect('/');
   };
 
   render(): JSX.Element {
+    const { email, password } = this.state.fieldValues;
     return (
       <div className='auth-container'>
         <form
@@ -69,10 +52,9 @@ class _Login extends React.Component<LoginFormProps, LoginFormState> {
           className='auth-form box'
           onSubmit={(e) => {
             e.preventDefault();
-            console.log(this.state);
             this.onFormSubmit({
-              email: this.state.fieldValues.email as string,
-              password: this.state.fieldValues.password as string,
+              email,
+              password,
             });
           }}
         >

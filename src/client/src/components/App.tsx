@@ -4,6 +4,7 @@ import React from 'react';
 import { Header } from './Header/Header';
 import { Profile } from './Profile/Profile';
 import { Login } from './Auth/Login';
+import { Signup } from './Auth/Signup';
 
 export class App extends React.Component {
   render(): JSX.Element {
@@ -14,6 +15,7 @@ export class App extends React.Component {
           <Routes>
             <Route path='/profile' element={<Profile />} />
             <Route path='/login' element={<Login />} />
+            <Route path='/signup' element={<Signup />} />
           </Routes>
         </div>
       </div>

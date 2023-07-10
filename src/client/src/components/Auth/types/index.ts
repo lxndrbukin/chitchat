@@ -21,3 +21,9 @@ export interface SignupFormProps {
 export interface LoginFormProps {
   loginUser: Function;
 }
+
+export interface InputProps {
+  name: string;
+  label: string;
+  placeholder: string;
+}

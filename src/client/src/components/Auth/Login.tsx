@@ -1,11 +1,15 @@
 import './Auth.scss';
 import React from 'react';
-import { LoginFormProps, FormState, FormValues } from './types';
-import { redirect } from 'react-router-dom';
+import { LoginFormProps, FormState, FormValues, InputProps } from './types';
 import { connect } from 'react-redux';
 import { loginUser } from '../../store';
 import { Input } from '../../assets/components/Inputs';
 import { Button } from '../../assets/components/Button';
+
+const inputs: InputProps[] = [
+  { name: 'email', label: 'Email:', placeholder: 'Email' },
+  { name: 'password', label: 'Password:', placeholder: 'Password' },
+];
 
 class _Login extends React.Component<LoginFormProps, FormState> {
   constructor(props: LoginFormProps) {
@@ -43,6 +47,23 @@ class _Login extends React.Component<LoginFormProps, FormState> {
     this.props.loginUser(formValues);
   };
 
+  renderInputs(): JSX.Element[] {
+    return inputs.map((input: InputProps) => {
+      return (
+        <Input
+          key={input.name}
+          onChange={this.handleOnChange}
+          onBlur={this.handleOnBlur}
+          name={input.name}
+          label={input.label}
+          placeholder={input.placeholder}
+          empty={this.state ? this.state.empty : {}}
+          message={'Error'}
+        />
+      );
+    });
+  }
+
   render(): JSX.Element {
     const { email, password } = this.state.fieldValues;
     return (
@@ -58,25 +79,8 @@ class _Login extends React.Component<LoginFormProps, FormState> {
             });
           }}
         >
-          <Input
-            name='email'
-            label='Email:'
-            placeholder='Email'
-            onChange={this.handleOnChange}
-            onBlur={this.handleOnBlur}
-            empty={this.state ? this.state.empty : {}}
-            message={'Error'}
-          />
-          <Input
-            name='password'
-            label='Password:'
-            placeholder='Password'
-            onChange={this.handleOnChange}
-            onBlur={this.handleOnBlur}
-            empty={this.state ? this.state.empty : {}}
-            message={'Error'}
-          />
-          <Button buttonType='primary'>Submit</Button>
+          {this.renderInputs()}
+          <Button buttonType={'primary'}>Submit</Button>
         </form>
       </div>
     );

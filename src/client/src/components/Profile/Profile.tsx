@@ -11,7 +11,7 @@ interface ProfileProps {
 
 class _Profile extends React.Component<ProfileProps> {
   componentDidMount(): void {
-    this.props.getCurrentUser();
+    // this.props.getCurrentUser();
   }
 
   render(): JSX.Element {

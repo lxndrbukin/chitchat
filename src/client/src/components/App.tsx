@@ -1,19 +1,29 @@
 import './App.scss';
-import { Routes, Route } from 'react-router-dom';
 import React from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { RootState, UserState } from '../store';
 import { Header } from './Header/Header';
 import { Profile } from './Profile/Profile';
 import { Login } from './Auth/Login';
 import { Signup } from './Auth/Signup';
 
-export class App extends React.Component {
+interface AppProps {
+  currentUser: UserState;
+}
+
+class _App extends React.Component<AppProps> {
   render(): JSX.Element {
+    const { loggedIn } = this.props.currentUser;
     return (
       <div className='app'>
         <Header />
         <div className='container'>
           <Routes>
-            <Route path='/profile' element={<Profile />} />
+            <Route
+              path='/profile'
+              element={loggedIn ? <Profile /> : <Navigate to='/' />}
+            />
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<Signup />} />
           </Routes>
@@ -22,3 +32,13 @@ export class App extends React.Component {
     );
   }
 }
+
+const mapStateToProps = ({
+  currentUser,
+}: RootState): { currentUser: UserState } => {
+  return {
+    currentUser,
+  };
+};
+
+export const App = connect(mapStateToProps)(_App);

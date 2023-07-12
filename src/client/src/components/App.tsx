@@ -1,6 +1,6 @@
 import './App.scss';
 import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { RootState, UserState } from '../store';
 import { Header } from './Header/Header';
@@ -20,10 +20,7 @@ class _App extends React.Component<AppProps> {
         <Header />
         <div className='container'>
           <Routes>
-            <Route
-              path='/profile'
-              element={loggedIn ? <Profile /> : <Navigate to='/' />}
-            />
+            <Route path='/profile' element={<Profile />} />
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<Signup />} />
           </Routes>

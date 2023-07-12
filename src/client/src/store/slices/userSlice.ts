@@ -5,11 +5,16 @@ import { loginUser } from '../thunks/loginUser';
 import { logoutUser } from '../thunks/logoutUser';
 import { signupUser } from '../thunks/signupUser';
 
-export interface UserData {
+export interface UserProps {
   _id: string,
+  fullName: {
+    firstName: string;
+    lastName: string;
+  };
   email: string,
   role: string;
 }
+
 
 export interface ErrorMessage {
   message: string;
@@ -18,7 +23,7 @@ export interface ErrorMessage {
 export interface UserState {
   loading: boolean;
   loggedIn: boolean;
-  userData: UserData | {};
+  userData: UserProps | {};
   error: string | undefined;
 }
 

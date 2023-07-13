@@ -17,13 +17,24 @@ class _Profile extends React.Component<ProfileProps> {
   }
 
   render(): JSX.Element {
-    if (!this.props.currentUser.loggedIn) {
-      return <Navigate to='/' />;
+    const { currentUser } = this.props;
+    if (currentUser) {
+      if (currentUser.loading) {
+        return <div>Loading</div>;
+      }
+      if (!currentUser.loading && !currentUser.loggedIn) {
+        console.log(currentUser);
+        return <Navigate to='/' />;
+      }
     }
     return (
       <div className='profile'>
         <div className='profile-section'>
-          <ProfileShortInfo />
+          {currentUser.loggedIn ? (
+            <ProfileShortInfo currentUser={this.props.currentUser} />
+          ) : (
+            'Loading'
+          )}
         </div>
       </div>
     );

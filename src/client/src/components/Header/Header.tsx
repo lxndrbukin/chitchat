@@ -1,7 +1,13 @@
 import './Header.scss';
 import React from 'react';
 import { connect } from 'react-redux';
-import { RootState, UserState, getCurrentUser, logoutUser } from '../../store';
+import {
+  RootState,
+  UserState,
+  UserProps,
+  getCurrentUser,
+  logoutUser,
+} from '../../store';
 import { Link } from 'react-router-dom';
 import { RiSearch2Line } from 'react-icons/ri';
 import { FiUsers, FiLogIn } from 'react-icons/fi';
@@ -54,18 +60,30 @@ class _Header extends React.Component<HeaderProps, HeaderState> {
   };
 
   showProfileMenu(): JSX.Element | null {
+    const { _id } = this.props.currentUser.userData as UserProps;
     if (this.state.showProfileMenu) {
       return (
         <div ref={this.profileMenu} className='profile-menu'>
           <ul className='profile-menu-links'>
             <li>
-              <Link to='/profile'>Profile</Link>
+              <Link onClick={this.handleInsideClick} to={`/profile/${_id}`}>
+                Profile
+              </Link>
             </li>
             <li>
-              <Link to='/settings'>Settings</Link>
+              <Link onClick={this.handleInsideClick} to='/settings'>
+                Settings
+              </Link>
             </li>
             <li>
-              <button onClick={this.logoutUser}>Logout</button>
+              <button
+                onClick={() => {
+                  this.logoutUser();
+                  this.handleInsideClick();
+                }}
+              >
+                Logout
+              </button>
             </li>
           </ul>
         </div>
@@ -104,11 +122,7 @@ class _Header extends React.Component<HeaderProps, HeaderState> {
             <div className='header-profile'>
               <div
                 ref={this.profileFrame}
-                onClick={() => {
-                  this.setState({
-                    showProfileMenu: !this.state.showProfileMenu,
-                  });
-                }}
+                onClick={this.handleInsideClick}
                 className='header-avatar-frame'
               >
                 <img

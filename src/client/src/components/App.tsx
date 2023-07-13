@@ -19,7 +19,7 @@ class _App extends React.Component<AppProps> {
         <Header />
         <div className='container'>
           <Routes>
-            <Route path='/profile' element={<Profile />} />
+            <Route path='/profile/:userId' element={<Profile />} />
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<Signup />} />
           </Routes>

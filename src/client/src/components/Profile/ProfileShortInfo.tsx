@@ -6,9 +6,10 @@ import { ShortInfoProps } from './types';
 import { Link } from 'react-router-dom';
 import { Button } from '../../assets/components/Button';
 
-class _ProfileShortInfo extends React.Component<ShortInfoProps> {
+export class ProfileShortInfo extends React.Component<ShortInfoProps> {
   render(): JSX.Element {
-    const { fullName } = this.props.currentUser.userData as UserProps;
+    const { loading } = this.props.currentUser;
+    const { fullName, email } = this.props.currentUser.userData as UserProps;
     return (
       <div className='short-info box'>
         <div className='short-info-header'>
@@ -21,9 +22,11 @@ class _ProfileShortInfo extends React.Component<ShortInfoProps> {
             <div className='short-info-data-rows'>
               <div className='short-info-data-row'>
                 <span className='full-name'>
-                  {fullName.firstName} {fullName.lastName}
+                  {loading ? '' : fullName.firstName}{' '}
+                  {loading ? '' : fullName.lastName}
                 </span>
               </div>
+              <div className='short-info-data-row'>{loading ? '' : email}</div>
             </div>
             <div className='header-buttons'>
               <Link to='/profile/edit'>
@@ -36,13 +39,3 @@ class _ProfileShortInfo extends React.Component<ShortInfoProps> {
     );
   }
 }
-
-const mapStateToProps = ({
-  currentUser,
-}: RootState): { currentUser: UserState } => {
-  return {
-    currentUser,
-  };
-};
-
-export const ProfileShortInfo = connect(mapStateToProps)(_ProfileShortInfo);

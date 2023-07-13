@@ -33,6 +33,7 @@ export function checkUser(operation: Operations) {
       return res.send({
         _id: user?.id,
         email: user?.email,
+        fullName: user?.fullName,
         role: user?.role
       });
     }

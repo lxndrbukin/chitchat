@@ -50,6 +50,9 @@ export const userSlice = createSlice({
     });
     builder.addCase(getCurrentUser.pending, (state: UserState): void => {
       state.loading = true;
+    });
+    builder.addCase(getCurrentUser.rejected, (state: UserState) => {
+      state.loading = false;
       state.loggedIn = false;
     });
     builder.addCase(loginUser.fulfilled, (state: UserState, action: PayloadAction<UserState>): void => {

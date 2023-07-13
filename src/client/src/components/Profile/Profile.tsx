@@ -1,6 +1,6 @@
 import './Profile.scss';
 import React from 'react';
-import { redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { ProfileProps } from './types';
 import { ProfileShortInfo } from './ProfileShortInfo';
 import { connect } from 'react-redux';
@@ -16,22 +16,17 @@ class _Profile extends React.Component<ProfileProps> {
     }
   }
 
-  componentDidMount(): Response {
-    return redirect('/');
-  }
-
   render(): JSX.Element {
-    if (this.props.currentUser.loggedIn && this.props.currentUser.userData) {
-      const { fullName } = this.props.currentUser.userData as UserProps;
-      return (
-        <div className='profile'>
-          <div className='profile-section'>
-            <ProfileShortInfo />
-          </div>
-        </div>
-      );
+    if (!this.props.currentUser.loggedIn) {
+      return <Navigate to='/' />;
     }
-    return <div>Loading...</div>;
+    return (
+      <div className='profile'>
+        <div className='profile-section'>
+          <ProfileShortInfo />
+        </div>
+      </div>
+    );
   }
 }
 

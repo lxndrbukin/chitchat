@@ -14,7 +14,6 @@ interface AppProps {
 
 class _App extends React.Component<AppProps> {
   render(): JSX.Element {
-    const { loggedIn } = this.props.currentUser;
     return (
       <div className='app'>
         <Header />

@@ -16,10 +16,14 @@ class UserController {
     }
   }
 
-  @get('/users')
+  @get('/users/:userId')
   @use(requireAuth)
-  async getAllUsers(req: Request, res: Response) {
-    const users: IUser[] = await User.find().select('-password -__v');
-    res.send(users);
+  async getUser(req: Request, res: Response) {
+    if (req.params && req.params.userId) {
+      const user = await User.findOne({ _id: req.params.userId }).select('-password -__v');
+      if (user) {
+        res.send(user);
+      }
+    }
   }
 }

@@ -4,7 +4,13 @@ import { withParams } from '../../assets/hooks';
 import { ProfileProps, ProfileState } from './types';
 import { ProfileShortInfo } from './ProfileShortInfo';
 import { connect } from 'react-redux';
-import { getCurrentUser, getUser, RootState, UserState } from '../../store';
+import {
+  getCurrentUser,
+  getUser,
+  RootState,
+  UserState,
+  UserProps,
+} from '../../store';
 
 class _Profile extends React.Component<ProfileProps, ProfileState> {
   constructor(props: ProfileProps) {
@@ -16,8 +22,9 @@ class _Profile extends React.Component<ProfileProps, ProfileState> {
 
   componentDidMount(): void {
     this.setState({ userId: this.props.params.userId as string });
-    console.log(this.state.userId);
-    this.props.getUser(this.state.userId);
+    if (this.state.userId !== (this.props.user.userData as UserProps)._id) {
+      this.props.getUser(this.state.userId);
+    }
   }
 
   render(): JSX.Element {

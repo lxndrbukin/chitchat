@@ -15,7 +15,7 @@ import { BsChatDots, BsBell, BsFillChatDotsFill } from 'react-icons/bs';
 import { BiChevronDown } from 'react-icons/bi';
 
 interface HeaderProps {
-  currentUser: UserState;
+  session: UserState;
   getCurrentUser: Function;
   logoutUser: Function;
 }
@@ -60,7 +60,7 @@ class _Header extends React.Component<HeaderProps, HeaderState> {
   };
 
   showProfileMenu(): JSX.Element | null {
-    const { _id } = this.props.currentUser.userData as UserProps;
+    const { _id } = this.props.session.userData as UserProps;
     if (this.state.showProfileMenu) {
       return (
         <div ref={this.profileMenu} className='profile-menu'>
@@ -93,7 +93,7 @@ class _Header extends React.Component<HeaderProps, HeaderState> {
   }
 
   showMenu(): JSX.Element | null {
-    const { loggedIn } = this.props.currentUser;
+    const { loggedIn } = this.props.session;
     if (loggedIn) {
       return (
         <ul className='header-menu'>
@@ -114,7 +114,7 @@ class _Header extends React.Component<HeaderProps, HeaderState> {
   }
 
   showProfileOrAuth(): JSX.Element {
-    const { loggedIn } = this.props.currentUser;
+    const { loggedIn } = this.props.session;
     if (loggedIn) {
       return (
         <ul className='header-menu'>
@@ -179,11 +179,9 @@ class _Header extends React.Component<HeaderProps, HeaderState> {
   }
 }
 
-const mapStateToProps = ({
-  currentUser,
-}: RootState): { currentUser: UserState } => {
+const mapStateToProps = ({ session }: RootState): { session: UserState } => {
   return {
-    currentUser,
+    session,
   };
 };
 

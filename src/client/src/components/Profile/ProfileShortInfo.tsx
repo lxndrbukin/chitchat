@@ -1,15 +1,29 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { RootState } from '../../store';
-import { UserState, UserProps } from '../../store';
+import { UserProps, RootState, UserState } from '../../store';
 import { ShortInfoProps } from './types';
 import { Link } from 'react-router-dom';
 import { Button } from '../../assets/components/Button';
 
-export class ProfileShortInfo extends React.Component<ShortInfoProps> {
+class _ProfileShortInfo extends React.Component<ShortInfoProps> {
+  showSettings(): JSX.Element | null {
+    const userId = (this.props.user.userData as UserProps)._id;
+    const sessionId = (this.props.session.userData as UserProps)._id;
+    if (userId === sessionId) {
+      return (
+        <div className='header-buttons'>
+          <Link to='/profile/edit'>
+            <Button buttonType='primary'>Edit Profile</Button>
+          </Link>
+        </div>
+      );
+    }
+    return null;
+  }
+
   render(): JSX.Element {
-    const { loading } = this.props.currentUser;
-    const { fullName, email } = this.props.currentUser.userData as UserProps;
+    const { loading } = this.props.user;
+    const { fullName } = this.props.user.userData as UserProps;
     return (
       <div className='short-info box'>
         <div className='short-info-header'>
@@ -22,20 +36,23 @@ export class ProfileShortInfo extends React.Component<ShortInfoProps> {
             <div className='short-info-data-rows'>
               <div className='short-info-data-row'>
                 <span className='full-name'>
-                  {loading ? '' : fullName.firstName}{' '}
-                  {loading ? '' : fullName.lastName}
+                  {loading || !fullName ? '' : fullName.firstName}{' '}
+                  {loading || !fullName ? '' : fullName.lastName}
                 </span>
               </div>
-              <div className='short-info-data-row'>{loading ? '' : email}</div>
             </div>
-            <div className='header-buttons'>
-              <Link to='/profile/edit'>
-                <Button buttonType='primary'>Edit Profile</Button>
-              </Link>
-            </div>
+            {this.showSettings()}
           </div>
         </div>
       </div>
     );
   }
 }
+
+const mapStateToProps = ({ session }: RootState): { session: UserState } => {
+  return {
+    session,
+  };
+};
+
+export const ProfileShortInfo = connect(mapStateToProps)(_ProfileShortInfo);

@@ -1,37 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
-import { getCurrentUser } from '../thunks/getCurrentUser';
-import { loginUser } from '../thunks/loginUser';
-import { logoutUser } from '../thunks/logoutUser';
-import { signupUser } from '../thunks/signupUser';
-
-export interface UserProps {
-  _id: string,
-  fullName: {
-    firstName: string;
-    lastName: string;
-  };
-  email: string,
-  role: string;
-}
-
-
-export interface ErrorMessage {
-  message: string;
-}
-
-export interface UserState {
-  loading: boolean;
-  loggedIn: boolean;
-  userData: UserProps | {};
-  error: string | undefined;
-}
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { UserState, UserProps } from './types';
+import { getUser } from '../thunks/getUser';
 
 const initialState: UserState = {
   loading: false,
-  loggedIn: false,
   userData: {},
-  error: undefined
+  error: undefined,
 };
 
 export const userSlice = createSlice({
@@ -39,40 +13,15 @@ export const userSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder): void => {
-    builder.addCase(getCurrentUser.fulfilled, (state: UserState, action: PayloadAction<UserState>): void => {
+    builder.addCase(getUser.fulfilled, (state: UserState, action: PayloadAction<UserProps>) => {
       state.loading = false;
-      if (action.payload.error) {
-        state.error = action.payload.error;
-        return;
-      }
-      state.loggedIn = true;
       state.userData = action.payload;
     });
-    builder.addCase(getCurrentUser.pending, (state: UserState): void => {
+    builder.addCase(getUser.pending, (state: UserState) => {
       state.loading = true;
     });
-    builder.addCase(getCurrentUser.rejected, (state: UserState) => {
-      state.loading = false;
-      state.loggedIn = false;
-    });
-    builder.addCase(loginUser.fulfilled, (state: UserState, action: PayloadAction<UserState>): void => {
-      state.loggedIn = true;
-      state.userData = action.payload;
-    });
-    builder.addCase(logoutUser.fulfilled, (state: UserState, action: PayloadAction<object>): void => {
-      state.loggedIn = false;
-      state.userData = action.payload;
-    });
-    builder.addCase(signupUser.fulfilled, (state: UserState, action: PayloadAction<UserState>): void => {
-      state.loading = false;
-      if (action.payload.error) {
-        state.error = action.payload.error;
-        return;
-      }
-      state.loggedIn = true;
-      state.userData = action.payload;
-    });
-  }
+  },
+
 });
 
 export default userSlice.reducer;

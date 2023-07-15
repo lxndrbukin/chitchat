@@ -9,7 +9,7 @@ import { Login } from './Auth/Login';
 import { Signup } from './Auth/Signup';
 
 interface AppProps {
-  currentUser: UserState;
+  session: UserState;
 }
 
 class _App extends React.Component<AppProps> {
@@ -29,11 +29,9 @@ class _App extends React.Component<AppProps> {
   }
 }
 
-const mapStateToProps = ({
-  currentUser,
-}: RootState): { currentUser: UserState } => {
+const mapStateToProps = ({ session }: RootState): { session: UserState } => {
   return {
-    currentUser,
+    session,
   };
 };
 

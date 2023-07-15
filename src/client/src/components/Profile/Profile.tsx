@@ -1,37 +1,37 @@
 import './Profile.scss';
 import React from 'react';
-import { Navigate } from 'react-router-dom';
-import { ProfileProps } from './types';
+import { withParams } from '../../assets/hooks';
+import { ProfileProps, ProfileState } from './types';
 import { ProfileShortInfo } from './ProfileShortInfo';
 import { connect } from 'react-redux';
-import { getCurrentUser, RootState, UserState, UserProps } from '../../store';
+import { getCurrentUser, getUser, RootState, UserState } from '../../store';
 
-class _Profile extends React.Component<ProfileProps> {
-  componentDidUpdate(
-    prevProps: Readonly<ProfileProps>,
-    prevState: Readonly<{}>
-  ): void {
-    if (prevProps.currentUser.loggedIn !== this.props.currentUser.loggedIn) {
-      this.props.getCurrentUser();
-    }
+class _Profile extends React.Component<ProfileProps, ProfileState> {
+  constructor(props: ProfileProps) {
+    super(props);
+    this.state = {
+      userId: this.props.params.userId as string,
+    };
+  }
+
+  componentDidMount(): void {
+    this.setState({ userId: this.props.params.userId as string });
+    console.log(this.state.userId);
+    this.props.getUser(this.state.userId);
   }
 
   render(): JSX.Element {
-    const { currentUser } = this.props;
-    if (currentUser) {
-      if (currentUser.loading) {
+    const { session, user } = this.props;
+    if (user) {
+      if (session.loading) {
         return <div>Loading</div>;
-      }
-      if (!currentUser.loading && !currentUser.loggedIn) {
-        console.log(currentUser);
-        return <Navigate to='/' />;
       }
     }
     return (
       <div className='profile'>
         <div className='profile-section'>
-          {currentUser.loggedIn ? (
-            <ProfileShortInfo currentUser={this.props.currentUser} />
+          {user.userData ? (
+            <ProfileShortInfo user={this.props.user} />
           ) : (
             'Loading'
           )}
@@ -41,12 +41,13 @@ class _Profile extends React.Component<ProfileProps> {
   }
 }
 
-const mapStateToProps = ({
-  currentUser,
-}: RootState): { currentUser: UserState } => {
+const mapStateToProps = ({ session, user }: RootState) => {
   return {
-    currentUser,
+    session,
+    user,
   };
 };
 
-export const Profile = connect(mapStateToProps, { getCurrentUser })(_Profile);
+export const Profile = connect(mapStateToProps, { getCurrentUser, getUser })(
+  withParams(_Profile)
+);

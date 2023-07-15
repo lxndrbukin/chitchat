@@ -14,11 +14,15 @@ export function checkUser(operation: Operations) {
       if (operation === Operations.Signup) {
         if (user) {
           res.status(403).json({ message: ErrorMessages.EmailInUse });
+          console.log('exists');
           return;
         } else if (!user && !await checkPassword(req.body.password)) {
           res.status(403).json({ message: ErrorMessages.PasswordLength });
+          console.log('password');
           return;
         }
+        next();
+        return;
       } else if (operation === Operations.Login) {
         if (!user) {
           res.status(403).json({ message: ErrorMessages.UserNotFound });
@@ -28,7 +32,6 @@ export function checkUser(operation: Operations) {
           return;
         }
         req.session = { id: user.id, role: user.role };
-
       }
       return res.send({
         _id: user?.id,

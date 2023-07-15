@@ -47,10 +47,10 @@ class AuthController {
       },
       email,
       password: await createPassword(password),
-      role: UserRoles.User
+      role: 'User'
     });
     req.session = { id: user.id, role: user.role };
-    res.redirect('/secret');
+    res.send(user);
   };
 
   @get('/logout')

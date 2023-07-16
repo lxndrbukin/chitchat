@@ -21,6 +21,16 @@ class _ProfileShortInfo extends React.Component<ShortInfoProps> {
     return null;
   }
 
+  showAddFriend(): JSX.Element | null {
+    const { loggedIn } = this.props.session;
+    const userId = (this.props.user.userData as UserProps)._id;
+    const sessionId = (this.props.session.userData as UserProps)._id;
+    if (userId !== sessionId && loggedIn) {
+      return <Button buttonType={'primary'}>Add Friend</Button>;
+    }
+    return null;
+  }
+
   render(): JSX.Element {
     const { loading } = this.props.user;
     const { fullName } = this.props.user.userData as UserProps;
@@ -41,6 +51,7 @@ class _ProfileShortInfo extends React.Component<ShortInfoProps> {
                 </span>
               </div>
             </div>
+            {this.showAddFriend()}
             {this.showSettings()}
           </div>
         </div>

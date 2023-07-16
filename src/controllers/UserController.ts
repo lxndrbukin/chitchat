@@ -9,7 +9,7 @@ class UserController {
   @use(requireAuth)
   async getCurrentUser(req: Request, res: Response) {
     if (req.session && req.session.id) {
-      const currentUser = await User.findOne({ _id: req.session.id }).select('-password -__v');
+      const currentUser = await User.findOne({ _id: req.session.id }).select('-password -email -__v');
       if (currentUser) {
         res.send(currentUser);
       }
@@ -17,10 +17,9 @@ class UserController {
   }
 
   @get('/users/:userId')
-  @use(requireAuth)
   async getUser(req: Request, res: Response) {
     if (req.params && req.params.userId) {
-      const user = await User.findOne({ _id: req.params.userId }).select('-password -__v');
+      const user = await User.findOne({ _id: req.params.userId }).select('-password -email -__v');
       if (user) {
         res.send(user);
       }

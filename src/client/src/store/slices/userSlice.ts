@@ -4,8 +4,8 @@ import { getUser } from '../thunks/getUser';
 
 const initialState: UserState = {
   loading: false,
-  userData: {},
-  error: undefined,
+  userData: undefined,
+  error: ''
 };
 
 export const userSlice = createSlice({
@@ -15,7 +15,10 @@ export const userSlice = createSlice({
   extraReducers: (builder): void => {
     builder.addCase(getUser.fulfilled, (state: UserState, action: PayloadAction<UserProps>) => {
       state.loading = false;
-      state.userData = action.payload;
+      if (!state.loading) {
+        state.userData = action.payload;
+        return;
+      }
     });
     builder.addCase(getUser.pending, (state: UserState) => {
       state.loading = true;

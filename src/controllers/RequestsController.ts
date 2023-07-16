@@ -6,11 +6,11 @@ import FriendReqs from '../models/FriendRequests';
 
 @controller('/_api')
 class RequestsController {
-  @get('/friend_requests')
+  @get('/friend_requests/:userId')
   @use(requireAuth)
   async getFriendRequests(req: Request, res: Response) {
     if (req.session) {
-      const currentUserReqs = await FriendReqs.find({ userId: req.session.id }).select('-_id -__v');
+      const currentUserReqs = await FriendReqs.find({ userId: req.params.userId }).select('-_id -__v');
       res.send(currentUserReqs);
     }
   }

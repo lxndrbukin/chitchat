@@ -1,31 +1,36 @@
 import './Profile.scss';
 import React from 'react';
 import { withParams } from '../../assets/hooks';
-import { ProfileProps, ProfileState } from './types';
+import { ProfileProps } from './types';
 import { ProfileShortInfo } from './ProfileShortInfo';
 import { connect } from 'react-redux';
-import {
-  getCurrentUser,
-  getUser,
-  RootState,
-  UserState,
-  UserProps,
-} from '../../store';
+import { getCurrentUser, getUser, RootState, UserProps } from '../../store';
 
-class _Profile extends React.Component<ProfileProps, ProfileState> {
+class _Profile extends React.Component<ProfileProps> {
   constructor(props: ProfileProps) {
     super(props);
-    this.state = {
-      userId: this.props.params.userId as string,
-    };
   }
 
-  componentDidMount(): void {
-    this.setState({ userId: this.props.params.userId as string });
-    if (this.state.userId !== (this.props.user.userData as UserProps)._id) {
-      this.props.getUser(this.state.userId);
+  componentDidUpdate(
+    prevProps: Readonly<ProfileProps>,
+    prevState: Readonly<{}>,
+    snapshot?: any
+  ): void {
+    if (this.props.params.userId !== prevProps.params.userId) {
+      this.props.getUser(this.props.params.userId);
+    } else if (
+      prevProps.user.userData &&
+      this.props.params.userId !== (prevProps.user.userData as UserProps)._id
+    ) {
+      this.props.getUser(this.props.params.userId);
+    } else if (this.props.user.userData === undefined) {
+      this.props.getUser(this.props.params.userId);
     }
   }
+
+  // componentDidMount(): void {
+  //   this.props.getUser(this.props.params.userId);
+  // }
 
   render(): JSX.Element {
     const { session, user } = this.props;

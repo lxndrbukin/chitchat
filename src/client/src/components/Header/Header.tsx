@@ -60,34 +60,36 @@ class _Header extends React.Component<HeaderProps, HeaderState> {
   };
 
   showProfileMenu(): JSX.Element | null {
-    const { _id } = this.props.session.userData as UserProps;
-    if (this.state.showProfileMenu) {
-      return (
-        <div ref={this.profileMenu} className='profile-menu'>
-          <ul className='profile-menu-links'>
-            <li>
-              <Link onClick={this.handleInsideClick} to={`/profile/${_id}`}>
-                Profile
-              </Link>
-            </li>
-            <li>
-              <Link onClick={this.handleInsideClick} to='/settings'>
-                Settings
-              </Link>
-            </li>
-            <li>
-              <button
-                onClick={() => {
-                  this.logoutUser();
-                  this.handleInsideClick();
-                }}
-              >
-                Logout
-              </button>
-            </li>
-          </ul>
-        </div>
-      );
+    if (this.props.session.userData) {
+      const { _id } = this.props.session.userData as UserProps;
+      if (this.state.showProfileMenu) {
+        return (
+          <div ref={this.profileMenu} className='profile-menu'>
+            <ul className='profile-menu-links'>
+              <li>
+                <Link onClick={this.handleInsideClick} to={`/profile/${_id}`}>
+                  Profile
+                </Link>
+              </li>
+              <li>
+                <Link onClick={this.handleInsideClick} to='/settings'>
+                  Settings
+                </Link>
+              </li>
+              <li>
+                <button
+                  onClick={() => {
+                    this.logoutUser();
+                    this.handleInsideClick();
+                  }}
+                >
+                  Logout
+                </button>
+              </li>
+            </ul>
+          </div>
+        );
+      }
     }
     return null;
   }

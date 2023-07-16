@@ -5,6 +5,8 @@ export interface UserProps {
     lastName: string;
   };
   role: string;
+  friendRequests: {} | undefined;
+  error?: string;
 }
 
 export interface ErrorMessage {
@@ -14,6 +16,6 @@ export interface ErrorMessage {
 export interface UserState {
   loading: boolean;
   loggedIn?: boolean;
-  userData: UserProps | {};
-  error?: string | undefined;
+  userData: UserProps | undefined;
+  error: string;
 }

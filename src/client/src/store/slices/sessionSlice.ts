@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { UserState } from './types';
+import { UserState, UserProps } from './types';
 import { getCurrentUser } from '../thunks/getCurrentUser';
 import { loginUser } from '../thunks/loginUser';
 import { logoutUser } from '../thunks/logoutUser';
@@ -8,8 +8,8 @@ import { signupUser } from '../thunks/signupUser';
 const initialState: UserState = {
   loading: false,
   loggedIn: false,
-  userData: {},
-  error: undefined
+  userData: undefined,
+  error: '',
 };
 
 export const sessionSlice = createSlice({
@@ -17,7 +17,7 @@ export const sessionSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder): void => {
-    builder.addCase(getCurrentUser.fulfilled, (state: UserState, action: PayloadAction<UserState>): void => {
+    builder.addCase(getCurrentUser.fulfilled, (state: UserState, action: PayloadAction<UserProps>): void => {
       state.loading = false;
       if (action.payload.error) {
         state.error = action.payload.error;
@@ -33,22 +33,24 @@ export const sessionSlice = createSlice({
       state.loading = false;
       state.loggedIn = false;
     });
-    builder.addCase(loginUser.fulfilled, (state: UserState, action: PayloadAction<UserState>): void => {
+    builder.addCase(loginUser.fulfilled, (state: UserState, action: PayloadAction<UserProps>): void => {
       state.loggedIn = true;
-      state.userData = action.payload;
-    });
-    builder.addCase(logoutUser.fulfilled, (state: UserState, action: PayloadAction<object>): void => {
-      state.loggedIn = false;
-      state.userData = action.payload;
-    });
-    builder.addCase(signupUser.fulfilled, (state: UserState, action: PayloadAction<UserState>): void => {
-      state.loading = false;
-      if (action.payload.error) {
-        state.error = action.payload.error;
+      if (state.loggedIn) {
+        state.userData = action.payload;
         return;
       }
+    });
+    builder.addCase(logoutUser.fulfilled, (state: UserState): void => {
+      state.loggedIn = false;
+      state.userData = undefined;
+    });
+    builder.addCase(signupUser.fulfilled, (state: UserState, action: PayloadAction<UserProps>): void => {
+      state.loading = false;
       state.loggedIn = true;
-      state.userData = action.payload;
+      if (state.loggedIn) {
+        state.userData = action.payload;
+        return;
+      }
     });
   }
 });

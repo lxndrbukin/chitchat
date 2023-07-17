@@ -31,7 +31,7 @@ export function checkUser(operation: Operations) {
           res.status(403).json({ message: ErrorMessages.IncorrectPassword });
           return;
         }
-        req.session = { id: user.id, role: user.role };
+        req.session = { id: user.id, fullName: { firstName: user.fullName.firstName, lastName: user.fullName.lastName }, role: user.role };
       }
       return res.send({
         _id: user?.id,

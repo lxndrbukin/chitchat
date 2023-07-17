@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
 import { controller, use, get } from './decorators';
 import { requireAuth } from './middlewares';
-import User, { IUser } from '../models/User';
+import { IUser } from '../models/types';
+import User from '../models/User';
 
 @controller('/_api')
 class UserController {

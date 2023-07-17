@@ -1,18 +1,5 @@
-import mongoose, { Schema, Document } from 'mongoose';
-
-interface RequestProps {
-  userId: string;
-  fullName: {
-    firstName: string;
-    lastName: string;
-  };
-}
-
-export interface IFriendReq extends Document {
-  userId: string,
-  sent: RequestProps[];
-  received: RequestProps[];
-}
+import mongoose, { Schema } from 'mongoose';
+import { IFriendReq, RequestProps } from './types';
 
 const FriendReqSchema: Schema = new Schema<IFriendReq>({
   userId: { type: String, required: true },

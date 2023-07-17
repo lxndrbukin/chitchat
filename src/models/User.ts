@@ -1,22 +1,5 @@
-import mongoose, { Schema, Document } from 'mongoose';
-
-enum UserRoles {
-  Admin = 'Admin',
-  Moderator = 'Moderator',
-  User = 'User'
-}
-
-interface FullName {
-  firstName: string;
-  lastName: string;
-}
-
-export interface IUser extends Document {
-  fullName: FullName;
-  email: string;
-  password: string;
-  role: UserRoles;
-}
+import mongoose, { Schema } from 'mongoose';
+import { IUser } from './types';
 
 const UserSchema: Schema = new Schema<IUser>({
   fullName: { type: Object, firstName: String, lastName: String },

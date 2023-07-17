@@ -4,3 +4,9 @@ export interface AuthFormValues {
   email: string;
   password: string;
 }
+
+export interface FriendRequest {
+  userId: string;
+  firstName: string;
+  lastName: string;
+}

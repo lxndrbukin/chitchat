@@ -12,7 +12,12 @@ import { Button } from '../../assets/components/Button';
 
 class _ProfileShortInfo extends React.Component<ShortInfoProps> {
   sendFriendRequest = (): void => {
-    this.props.sendFriendRequest((this.props.user.userData as UserProps)._id);
+    const user = {
+      userId: (this.props.user.userData as UserProps)._id,
+      firstName: (this.props.user.userData as UserProps).fullName.firstName,
+      lastName: (this.props.user.userData as UserProps).fullName.lastName,
+    };
+    this.props.sendFriendRequest(user);
   };
 
   showSettings(): JSX.Element | null {

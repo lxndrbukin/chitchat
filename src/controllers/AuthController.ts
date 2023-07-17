@@ -4,7 +4,6 @@ import { checkUser } from './middlewares';
 import { createPassword } from './helpers';
 import User from '../models/User';
 import { Operations } from './middlewares';
-import { UserRoles } from './types';
 
 @controller('/auth')
 class AuthController {
@@ -49,7 +48,7 @@ class AuthController {
       password: await createPassword(password),
       role: 'User'
     });
-    req.session = { id: user.id, role: user.role };
+    req.session = { id: user.id, fullName: { firstName: user.fullName.firstName, lastName: user.fullName.lastName }, role: user.role };
     res.send(user);
   };
 

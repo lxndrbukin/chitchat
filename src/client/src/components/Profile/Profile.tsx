@@ -19,13 +19,6 @@ class _Profile extends React.Component<ProfileProps> {
   ): void {
     if (this.props.params.userId !== prevProps.params.userId) {
       this.props.getUser(this.props.params.userId);
-    } else if (
-      prevProps.user.userData &&
-      this.props.params.userId !== (prevProps.user.userData as UserProps)._id
-    ) {
-      this.props.getUser(this.props.params.userId);
-    } else if (this.props.user.userData === undefined) {
-      this.props.getUser(this.props.params.userId);
     }
   }
 

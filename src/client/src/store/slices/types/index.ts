@@ -8,10 +8,6 @@ export interface UserProps {
   error: string;
 }
 
-export interface SessionProps extends UserProps {
-  friendRequests: {};
-}
-
 export interface ErrorMessage {
   message: string;
 }
@@ -19,6 +15,28 @@ export interface ErrorMessage {
 export interface UserState {
   loading: boolean;
   loggedIn?: boolean;
-  userData: UserProps | SessionProps | undefined;
+  userData: UserProps | undefined;
+  error: string;
+}
+
+export interface FriendRequestsPayload {
+  sent: FriendRequestProps[],
+  received: FriendRequestProps[];
+}
+
+export interface FriendRequestProps {
+  userId: string;
+  fullName: {
+    firstName: string;
+    lastName: string;
+  };
+}
+
+export interface FriendRequestsState {
+  loading: boolean;
+  requests: {
+    sent: FriendRequestProps[];
+    received: FriendRequestProps[];
+  };
   error: string;
 }

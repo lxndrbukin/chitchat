@@ -1,10 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { UserState, SessionProps } from './types';
+import { UserState, UserProps } from './types';
 import { getCurrentUser } from '../thunks/getCurrentUser';
 import { loginUser } from '../thunks/loginUser';
 import { logoutUser } from '../thunks/logoutUser';
 import { signupUser } from '../thunks/signupUser';
-import { getFriendRequests } from '../thunks/getFriendRequests';
 
 const initialState: UserState = {
   loading: false,
@@ -18,7 +17,7 @@ export const sessionSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder): void => {
-    builder.addCase(getCurrentUser.fulfilled, (state: UserState, action: PayloadAction<SessionProps>): void => {
+    builder.addCase(getCurrentUser.fulfilled, (state: UserState, action: PayloadAction<UserProps>): void => {
       state.loading = false;
       if (action.payload.error) {
         state.error = action.payload.error;
@@ -30,11 +29,11 @@ export const sessionSlice = createSlice({
     builder.addCase(getCurrentUser.pending, (state: UserState): void => {
       state.loading = true;
     });
-    builder.addCase(getCurrentUser.rejected, (state: UserState) => {
+    builder.addCase(getCurrentUser.rejected, (state: UserState): void => {
       state.loading = false;
       state.loggedIn = false;
     });
-    builder.addCase(loginUser.fulfilled, (state: UserState, action: PayloadAction<SessionProps>): void => {
+    builder.addCase(loginUser.fulfilled, (state: UserState, action: PayloadAction<UserProps>): void => {
       state.loggedIn = true;
       if (state.loggedIn) {
         state.userData = action.payload;
@@ -45,16 +44,13 @@ export const sessionSlice = createSlice({
       state.loggedIn = false;
       state.userData = undefined;
     });
-    builder.addCase(signupUser.fulfilled, (state: UserState, action: PayloadAction<SessionProps>): void => {
+    builder.addCase(signupUser.fulfilled, (state: UserState, action: PayloadAction<UserProps>): void => {
       state.loading = false;
       state.loggedIn = true;
       if (state.loggedIn) {
         state.userData = action.payload;
         return;
       }
-    });
-    builder.addCase(getFriendRequests.fulfilled, (state: UserState, action) => {
-
     });
   }
 });

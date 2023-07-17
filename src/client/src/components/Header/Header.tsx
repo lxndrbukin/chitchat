@@ -1,28 +1,13 @@
 import './Header.scss';
 import React from 'react';
 import { connect } from 'react-redux';
-import {
-  RootState,
-  UserState,
-  UserProps,
-  getCurrentUser,
-  logoutUser,
-} from '../../store';
+import { RootState, UserState, UserProps, logoutUser } from '../../store';
+import { HeaderProps, HeaderState } from './types';
 import { Link } from 'react-router-dom';
 import { RiSearch2Line } from 'react-icons/ri';
 import { FiUsers, FiLogIn } from 'react-icons/fi';
 import { BsChatDots, BsBell, BsFillChatDotsFill } from 'react-icons/bs';
 import { BiChevronDown } from 'react-icons/bi';
-
-interface HeaderProps {
-  session: UserState;
-  getCurrentUser: Function;
-  logoutUser: Function;
-}
-
-interface HeaderState {
-  showProfileMenu: boolean;
-}
 
 class _Header extends React.Component<HeaderProps, HeaderState> {
   private profileFrame: React.RefObject<HTMLDivElement>;
@@ -56,7 +41,6 @@ class _Header extends React.Component<HeaderProps, HeaderState> {
 
   componentDidMount = (): void => {
     document.addEventListener('click', this.handleOutsideClick);
-    this.props.getCurrentUser();
   };
 
   showProfileMenu(): JSX.Element | null {
@@ -187,6 +171,4 @@ const mapStateToProps = ({ session }: RootState): { session: UserState } => {
   };
 };
 
-export const Header = connect(mapStateToProps, { getCurrentUser, logoutUser })(
-  _Header
-);
+export const Header = connect(mapStateToProps, { logoutUser })(_Header);

@@ -13,14 +13,14 @@ export const userSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder): void => {
-    builder.addCase(getUser.fulfilled, (state: UserState, action: PayloadAction<UserProps>) => {
+    builder.addCase(getUser.fulfilled, (state: UserState, action: PayloadAction<UserProps>): void => {
       state.loading = false;
       if (!state.loading) {
         state.userData = action.payload;
         return;
       }
     });
-    builder.addCase(getUser.pending, (state: UserState) => {
+    builder.addCase(getUser.pending, (state: UserState): void => {
       state.loading = true;
     });
   },

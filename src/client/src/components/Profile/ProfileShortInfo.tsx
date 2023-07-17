@@ -1,18 +1,27 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { UserProps, RootState, UserState } from '../../store';
+import {
+  sendFriendRequest,
+  UserProps,
+  RootState,
+  UserState,
+} from '../../store';
 import { ShortInfoProps } from './types';
 import { Link } from 'react-router-dom';
 import { Button } from '../../assets/components/Button';
 
 class _ProfileShortInfo extends React.Component<ShortInfoProps> {
+  sendFriendRequest = (): void => {
+    this.props.sendFriendRequest((this.props.user.userData as UserProps)._id);
+  };
+
   showSettings(): JSX.Element | null {
     const userId = (this.props.user.userData as UserProps)._id;
     const sessionId = (this.props.session.userData as UserProps)._id;
     if (userId === sessionId) {
       return (
         <div className='header-buttons'>
-          <Link to='/profile/edit'>
+          <Link to={`/profile/${sessionId}/edit`}>
             <Button buttonType='primary'>Edit Profile</Button>
           </Link>
         </div>
@@ -26,7 +35,11 @@ class _ProfileShortInfo extends React.Component<ShortInfoProps> {
     const userId = (this.props.user.userData as UserProps)._id;
     const sessionId = (this.props.session.userData as UserProps)._id;
     if (userId !== sessionId && loggedIn) {
-      return <Button buttonType={'primary'}>Add Friend</Button>;
+      return (
+        <Button onClick={this.sendFriendRequest} buttonType={'primary'}>
+          Add Friend
+        </Button>
+      );
     }
     return null;
   }
@@ -66,4 +79,6 @@ const mapStateToProps = ({ session }: RootState): { session: UserState } => {
   };
 };
 
-export const ProfileShortInfo = connect(mapStateToProps)(_ProfileShortInfo);
+export const ProfileShortInfo = connect(mapStateToProps, { sendFriendRequest })(
+  _ProfileShortInfo
+);

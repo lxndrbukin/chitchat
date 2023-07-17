@@ -5,8 +5,11 @@ export interface UserProps {
     lastName: string;
   };
   role: string;
-  friendRequests: {} | undefined;
-  error?: string;
+  error: string;
+}
+
+export interface SessionProps extends UserProps {
+  friendRequests: {};
 }
 
 export interface ErrorMessage {
@@ -16,6 +19,6 @@ export interface ErrorMessage {
 export interface UserState {
   loading: boolean;
   loggedIn?: boolean;
-  userData: UserProps | undefined;
+  userData: UserProps | SessionProps | undefined;
   error: string;
 }

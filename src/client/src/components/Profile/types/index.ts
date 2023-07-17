@@ -15,6 +15,7 @@ export interface ProfileProps extends MatchParams {
 export interface ShortInfoProps {
   session: UserState;
   user: UserState;
+  sendFriendRequest: Function;
 }
 
 export interface ProfileState {

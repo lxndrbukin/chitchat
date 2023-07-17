@@ -3,6 +3,7 @@ import React from 'react';
 import { withParams } from '../../assets/hooks';
 import { ProfileProps } from './types';
 import { ProfileShortInfo } from './ProfileShortInfo';
+import { ProfilePosts } from './ProfilePosts';
 import { connect } from 'react-redux';
 import { getCurrentUser, getUser, RootState, UserProps } from '../../store';
 
@@ -28,10 +29,6 @@ class _Profile extends React.Component<ProfileProps> {
     }
   }
 
-  // componentDidMount(): void {
-  //   this.props.getUser(this.props.params.userId);
-  // }
-
   render(): JSX.Element {
     const { session, user } = this.props;
     if (user) {
@@ -41,13 +38,17 @@ class _Profile extends React.Component<ProfileProps> {
     }
     return (
       <div className='profile'>
-        <div className='profile-section'>
-          {user.userData ? (
+        {user.userData ? (
+          <div className='profile-section'>
             <ProfileShortInfo user={this.props.user} />
-          ) : (
-            'Loading'
-          )}
-        </div>
+            <div className='profile-section-left'>
+              <ProfilePosts />
+            </div>
+            <div className='profile-section-right'></div>
+          </div>
+        ) : (
+          'Loading'
+        )}
       </div>
     );
   }

@@ -2,10 +2,11 @@ import './Profile.scss';
 import React from 'react';
 import { withParams } from '../../assets/hooks';
 import { ProfileProps } from './types';
-import { ProfileShortInfo } from './ProfileShortInfo';
-import { ProfilePosts } from './ProfilePosts';
 import { connect } from 'react-redux';
 import { getCurrentUser, getUser, RootState, UserProps } from '../../store';
+import { ProfileShortInfo } from './ProfileShortInfo';
+import { ProfilePosts } from './ProfilePosts';
+import { ProfileFriendsBox } from './ProfileFriendsBox';
 
 class _Profile extends React.Component<ProfileProps> {
   constructor(props: ProfileProps) {
@@ -37,7 +38,9 @@ class _Profile extends React.Component<ProfileProps> {
             <div className='profile-section-left'>
               <ProfilePosts />
             </div>
-            <div className='profile-section-right'></div>
+            <div className='profile-section-right'>
+              <ProfileFriendsBox />
+            </div>
           </div>
         ) : (
           'Loading'

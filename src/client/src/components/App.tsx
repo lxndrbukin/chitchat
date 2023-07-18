@@ -11,6 +11,7 @@ import {
 } from '../store';
 import { Header } from './Header/Header';
 import { Profile } from './Profile/Profile';
+import { ProfileEdit } from './Profile/ProfileEdit';
 import { Login } from './Auth/Login';
 import { Signup } from './Auth/Signup';
 
@@ -44,6 +45,7 @@ class _App extends React.Component<AppProps> {
         <div className='container'>
           <Routes>
             <Route path='/profile/:userId' element={<Profile />} />
+            <Route path='/profile/:userId/edit' element={<ProfileEdit />} />
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<Signup />} />
           </Routes>

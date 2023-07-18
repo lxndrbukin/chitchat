@@ -1,4 +1,4 @@
-import { UserState } from '../../../store';
+import { UserState, FriendRequestsState } from '../../../store';
 import { Params } from 'react-router-dom';
 
 interface MatchParams {
@@ -15,9 +15,29 @@ export interface ProfileProps extends MatchParams {
 export interface ShortInfoProps {
   session: UserState;
   user: UserState;
+  friendRequests: FriendRequestsState;
   sendFriendRequest: Function;
 }
 
 export interface ProfileState {
   userId: string;
+}
+
+export interface InputProps {
+  name: string;
+  label: string;
+  placeholder: string;
+}
+
+export interface FormState {
+  fieldValues: {
+    [key: string]: string;
+  };
+  empty: {
+    [key: string]: boolean;
+  };
+}
+
+export interface EditFormProps {
+
 }

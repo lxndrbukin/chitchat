@@ -13,6 +13,7 @@ import './controllers/RequestsController';
 
 import './models/User';
 import './models/FriendRequests';
+import './models/Friends';
 import './models/Chat';
 
 const app = express();

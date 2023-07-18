@@ -44,3 +44,17 @@ export interface IUser extends Document {
   password: string;
   role: UserRoles;
 }
+
+// FRIENDS MODEL INTERFACES
+export interface FriendProps {
+  userId: string;
+  fullName: {
+    firstName: string;
+    lastName: string;
+  };
+}
+
+export interface IFriends extends Document {
+  userId: string;
+  friendsList: FriendProps[];
+}

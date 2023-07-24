@@ -16,7 +16,7 @@ export const friendReqSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getFriendRequests.fulfilled, (state: FriendRequestsState, action: PayloadAction<FriendRequestsPayload>) => {
+    builder.addCase(getFriendRequests.fulfilled, (state: FriendRequestsState, action: PayloadAction<FriendRequestsPayload>): void => {
       state.loading = false;
       state.requests = {
         ...state.requests,
@@ -24,7 +24,7 @@ export const friendReqSlice = createSlice({
         sent: action.payload.sent,
       };
     });
-    builder.addCase(getFriendRequests.pending, (state) => {
+    builder.addCase(getFriendRequests.pending, (state: FriendRequestsState): void => {
       state.loading = true;
     });
   }

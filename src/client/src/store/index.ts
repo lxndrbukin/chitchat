@@ -2,13 +2,14 @@ import { configureStore } from '@reduxjs/toolkit';
 import sessionReducer from './slices/sessionSlice';
 import userReducer from './slices/userSlice';
 import friendReqReducer from './slices/friendReqSlice';
+import friendsListReducer from './slices/friendsListSlice';
 
 export const store = configureStore({
   reducer: {
     session: sessionReducer,
     friendRequests: friendReqReducer,
+    friendsList: friendsListReducer,
     user: userReducer,
-
   },
 });
 

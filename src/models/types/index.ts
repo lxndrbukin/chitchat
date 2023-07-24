@@ -54,7 +54,7 @@ export interface FriendProps {
   };
 }
 
-export interface IFriends extends Document {
+export interface IFriendsList extends Document {
   userId: string;
   friendsList: FriendProps[];
 }

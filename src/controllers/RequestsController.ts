@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { controller, use, get, post } from './decorators';
 import { requireAuth } from './middlewares';
 import FriendReqs from '../models/FriendRequests';
+import FriendsList from '../models/FriendsList';
 
 @controller('/_api')
 class RequestsController {
@@ -10,10 +11,12 @@ class RequestsController {
   async getFriendRequests(req: Request, res: Response) {
     if (req.session) {
       const currentUserReqs = await FriendReqs.findOne({ userId: req.params.userId }).select('-_id -__v');
-      res.send({
-        sent: currentUserReqs?.sent,
-        received: currentUserReqs?.received
-      });
+      if (currentUserReqs) {
+        res.send({
+          sent: currentUserReqs.sent,
+          received: currentUserReqs.received
+        });
+      }
     }
   }
 
@@ -51,6 +54,16 @@ class RequestsController {
         await userReqs.updateOne({ $push: { received: sessionUser } });
       }
     }
-    res.redirect('/_api/users');
+    return;
+  }
+  @get('/_api/friends_list/:userId')
+  @use(requireAuth)
+  async getFriendsList(req: Request, res: Response) {
+    if (req.session) {
+      const friendsList = await FriendsList.findOne({ userId: req.params.userId }).select('-_id -__v');
+      if (friendsList) {
+        res.send(friendsList);
+      }
+    }
   }
 }

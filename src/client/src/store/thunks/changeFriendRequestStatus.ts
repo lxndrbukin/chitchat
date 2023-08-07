@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { FriendRequest } from './types';
+import { FriendRequest, RequestAction } from './types';
 
 export const changeFriendRequestStatus = createAsyncThunk('session/changeFriendRequestStatus', async ({ userId, firstName, lastName, requestAction }: FriendRequest) => {
   const res = await axios.post('/_api/friend_requests', {
@@ -9,4 +9,5 @@ export const changeFriendRequestStatus = createAsyncThunk('session/changeFriendR
     lastName,
     requestAction
   });
+  return res.data;
 });

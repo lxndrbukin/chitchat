@@ -1,7 +1,7 @@
 export enum RequestAction {
-  accept = 'accept',
-  decline = 'decline',
-  send = 'send'
+  Accept = 'Accept',
+  Decline = 'Decline',
+  Send = 'Send'
 }
 
 export interface AuthFormValues {
@@ -13,7 +13,7 @@ export interface AuthFormValues {
 
 export interface FriendRequest {
   userId: string;
-  firstName: string;
-  lastName: string;
+  firstName?: string;
+  lastName?: string;
   requestAction: RequestAction;
 }

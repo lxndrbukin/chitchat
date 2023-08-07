@@ -1,3 +1,5 @@
+import { RequestAction } from "../../thunks/types";
+
 export interface UserProps {
   _id: string,
   fullName: {
@@ -20,6 +22,13 @@ export interface UserState {
 }
 
 export interface FriendRequestsPayload {
+  userId: string;
+  firstName: string;
+  lastName: string;
+  requestAction: RequestAction;
+}
+
+export interface FriendRequests {
   sent: FriendRequestProps[],
   received: FriendRequestProps[];
 }

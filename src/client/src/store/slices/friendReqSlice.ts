@@ -1,10 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { FriendRequestsState, FriendRequestProps, FriendRequestsPayload } from './types';
+import { FriendRequestsState, FriendRequestProps, FriendRequests, FriendRequestsPayload } from './types';
 import { getFriendRequests } from '../thunks/getFriendRequests';
 import { acceptFriendRequest } from '../thunks/acceptFriendRequest';
 import { declineFriendRequest } from '../thunks/declineFriendRequest';
 import { sendFriendRequest } from '../thunks/sendFriendRequest';
 import { changeFriendRequestStatus } from '../thunks/changeFriendRequestStatus';
+import { RequestAction } from '../thunks/types';
 
 const initialState: FriendRequestsState = {
   loading: false,
@@ -20,7 +21,7 @@ export const friendReqSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getFriendRequests.fulfilled, (state: FriendRequestsState, action: PayloadAction<FriendRequestsPayload>): void => {
+    builder.addCase(getFriendRequests.fulfilled, (state: FriendRequestsState, action: PayloadAction<FriendRequests>): void => {
       state.loading = false;
       state.requests = {
         ...state.requests,
@@ -31,28 +32,26 @@ export const friendReqSlice = createSlice({
     builder.addCase(getFriendRequests.pending, (state: FriendRequestsState): void => {
       state.loading = true;
     });
-    builder.addCase(acceptFriendRequest.fulfilled, (state: FriendRequestsState, action: PayloadAction<string>) => {
-      state.loading = false;
-      state.requests = {
-        ...state.requests,
-        received: state.requests.received.filter(request => request.userId !== action.payload)
-      };
-    });
-    builder.addCase(acceptFriendRequest.pending, (state: FriendRequestsState) => {
-      state.loading = true;
-    });
-    builder.addCase(declineFriendRequest.fulfilled, (state: FriendRequestsState, action: PayloadAction<string>) => {
-      state.requests = {
-        ...state.requests,
-        received: state.requests.received.filter(request => request.userId !== action.payload)
-      };
-    });
     builder.addCase(sendFriendRequest.fulfilled, (state, action) => {
       state.requests = {
         ...state.requests,
 
       };
     });
+    builder.addCase(changeFriendRequestStatus.fulfilled, (state: FriendRequestsState, action: PayloadAction<FriendRequestsPayload>) => {
+      state.loading = false;
+      if (action.payload.requestAction === RequestAction.Accept || action.payload.requestAction === RequestAction.Decline) {
+        state.requests = {
+          ...state.requests,
+          received: state.requests.received.filter(request => request.userId !== action.payload.userId)
+        }
+      } else if (action.payload.requestAction === RequestAction.Send) {
+        state.requests = {
+          ...state.requests,
+          sent: [...state.requests.sent, {userId: action.payload.userId, fullName: {firstName: action.payload.firstName, lastName: action.payload.lastName}}]
+        }
+      }
+    })
   }
 });
 

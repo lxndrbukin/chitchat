@@ -4,6 +4,7 @@ import { getFriendRequests } from '../thunks/getFriendRequests';
 import { acceptFriendRequest } from '../thunks/acceptFriendRequest';
 import { declineFriendRequest } from '../thunks/declineFriendRequest';
 import { sendFriendRequest } from '../thunks/sendFriendRequest';
+import { changeFriendRequestStatus } from '../thunks/changeFriendRequestStatus';
 
 const initialState: FriendRequestsState = {
   loading: false,

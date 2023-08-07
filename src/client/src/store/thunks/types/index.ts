@@ -1,3 +1,9 @@
+export enum RequestAction {
+  accept = 'accept',
+  decline = 'decline',
+  send = 'send'
+}
+
 export interface AuthFormValues {
   firstName?: string;
   lastName?: string;
@@ -9,4 +15,5 @@ export interface FriendRequest {
   userId: string;
   firstName: string;
   lastName: string;
+  requestAction: RequestAction;
 }

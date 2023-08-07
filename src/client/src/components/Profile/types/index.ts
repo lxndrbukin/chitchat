@@ -17,6 +17,7 @@ export interface ShortInfoProps {
   user: UserState;
   friendRequests: FriendRequestsState;
   sendFriendRequest: Function;
+  changeFriendRequestStatus: Function;
 }
 
 export interface ProfileState {

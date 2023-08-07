@@ -1,18 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { sendFriendRequest, UserProps, RootState } from '../../store';
+import { changeFriendRequestStatus, UserProps, RootState } from '../../store';
 import { ShortInfoProps } from './types';
 import { Link } from 'react-router-dom';
 import { Button } from '../../assets/components/Button';
 
 class _ProfileShortInfo extends React.Component<ShortInfoProps> {
-  sendFriendRequest = (): void => {
+  changeFriendRequestStatus = (requestAction: string): void => {
     const user = {
       userId: (this.props.user.userData as UserProps)._id,
       firstName: (this.props.user.userData as UserProps).fullName.firstName,
       lastName: (this.props.user.userData as UserProps).fullName.lastName,
     };
-    this.props.sendFriendRequest(user);
+    this.props.changeFriendRequestStatus({ ...user, requestAction });
   };
 
   showSettings(): JSX.Element | null {
@@ -37,13 +37,30 @@ class _ProfileShortInfo extends React.Component<ShortInfoProps> {
     const sessionId = (this.props.session.userData as UserProps)._id;
     if (userId !== sessionId && loggedIn) {
       if (friendRequests.received.filter((req) => req.userId === userId)) {
-        return <Button buttonType={'primary'}>Accept</Button>;
+        return (
+          <Button
+            onClick={() => this.changeFriendRequestStatus('Accept')}
+            buttonType={'primary'}
+          >
+            Accept
+          </Button>
+        );
       }
       if (friendRequests.sent.filter((req) => req.userId === userId)) {
-        return <Button buttonType={'primary'}>Cancel</Button>;
+        return (
+          <Button
+            onClick={() => this.changeFriendRequestStatus('Cancel')}
+            buttonType={'primary'}
+          >
+            Cancel
+          </Button>
+        );
       }
       return (
-        <Button onClick={this.sendFriendRequest} buttonType={'primary'}>
+        <Button
+          onClick={() => this.changeFriendRequestStatus('Send')}
+          buttonType={'primary'}
+        >
           Add Friend
         </Button>
       );
@@ -87,6 +104,6 @@ const mapStateToProps = ({ session, friendRequests }: RootState) => {
   };
 };
 
-export const ProfileShortInfo = connect(mapStateToProps, { sendFriendRequest })(
-  _ProfileShortInfo
-);
+export const ProfileShortInfo = connect(mapStateToProps, {
+  changeFriendRequestStatus,
+})(_ProfileShortInfo);

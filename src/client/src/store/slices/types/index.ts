@@ -1,4 +1,4 @@
-import { RequestAction } from "../../thunks/types";
+import { RequestAction } from '../../thunks/types';
 
 export interface UserProps {
   _id: string,

@@ -1,7 +1,8 @@
 export enum RequestAction {
   Accept = 'Accept',
   Decline = 'Decline',
-  Send = 'Send'
+  Send = 'Send',
+  Cancel = 'Cancel'
 }
 
 export interface AuthFormValues {

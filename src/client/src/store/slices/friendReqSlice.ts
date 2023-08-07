@@ -1,8 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { FriendRequestsState, FriendRequestProps, FriendRequests, FriendRequestsPayload } from './types';
+import { FriendRequestsState, FriendRequests, FriendRequestsPayload } from './types';
 import { getFriendRequests } from '../thunks/getFriendRequests';
-import { acceptFriendRequest } from '../thunks/acceptFriendRequest';
-import { declineFriendRequest } from '../thunks/declineFriendRequest';
 import { sendFriendRequest } from '../thunks/sendFriendRequest';
 import { changeFriendRequestStatus } from '../thunks/changeFriendRequestStatus';
 import { RequestAction } from '../thunks/types';
@@ -44,14 +42,14 @@ export const friendReqSlice = createSlice({
         state.requests = {
           ...state.requests,
           received: state.requests.received.filter(request => request.userId !== action.payload.userId)
-        }
+        };
       } else if (action.payload.requestAction === RequestAction.Send) {
         state.requests = {
           ...state.requests,
-          sent: [...state.requests.sent, {userId: action.payload.userId, fullName: {firstName: action.payload.firstName, lastName: action.payload.lastName}}]
-        }
+          sent: [...state.requests.sent, { userId: action.payload.userId, fullName: { firstName: action.payload.firstName, lastName: action.payload.lastName } }]
+        };
       }
-    })
+    });
   }
 });
 

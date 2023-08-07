@@ -1,6 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { FriendRequestsState, FriendRequestProps, FriendRequestsPayload } from './types';
 import { getFriendRequests } from '../thunks/getFriendRequests';
+import { acceptFriendRequest } from '../thunks/acceptFriendRequest';
+import { declineFriendRequest } from '../thunks/declineFriendRequest';
+import { sendFriendRequest } from '../thunks/sendFriendRequest';
 
 const initialState: FriendRequestsState = {
   loading: false,
@@ -26,6 +29,28 @@ export const friendReqSlice = createSlice({
     });
     builder.addCase(getFriendRequests.pending, (state: FriendRequestsState): void => {
       state.loading = true;
+    });
+    builder.addCase(acceptFriendRequest.fulfilled, (state: FriendRequestsState, action: PayloadAction<string>) => {
+      state.loading = false;
+      state.requests = {
+        ...state.requests,
+        received: state.requests.received.filter(request => request.userId !== action.payload)
+      };
+    });
+    builder.addCase(acceptFriendRequest.pending, (state: FriendRequestsState) => {
+      state.loading = true;
+    });
+    builder.addCase(declineFriendRequest.fulfilled, (state: FriendRequestsState, action: PayloadAction<string>) => {
+      state.requests = {
+        ...state.requests,
+        received: state.requests.received.filter(request => request.userId !== action.payload)
+      };
+    });
+    builder.addCase(sendFriendRequest.fulfilled, (state, action) => {
+      state.requests = {
+        ...state.requests,
+
+      };
     });
   }
 });

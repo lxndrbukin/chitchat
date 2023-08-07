@@ -56,7 +56,7 @@ class RequestsController {
     }
     return;
   }
-  @get('/_api/friends_list/:userId')
+  @get('/friends_list/:userId')
   @use(requireAuth)
   async getFriendsList(req: Request, res: Response) {
     if (req.session) {

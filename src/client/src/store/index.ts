@@ -22,7 +22,7 @@ export * from './slices/userSlice';
 export * from './thunks/getCurrentUser';
 export * from './thunks/getUser';
 export * from './thunks/getFriendRequests';
-export * from './thunks/sendFriendRequest';
 export * from './thunks/changeFriendRequestStatus';
+export * from './thunks/addFriend';
 export * from './thunks/loginUser';
 export * from './thunks/logoutUser';

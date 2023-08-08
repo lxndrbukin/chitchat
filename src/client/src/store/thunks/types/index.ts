@@ -12,9 +12,12 @@ export interface AuthFormValues {
   password: string;
 }
 
-export interface FriendRequest {
+export interface FriendProps {
   userId: string;
-  firstName?: string;
-  lastName?: string;
+  firstName: string;
+  lastName: string;
+};
+
+export interface FriendRequestProps extends FriendProps {
   requestAction: RequestAction;
 }

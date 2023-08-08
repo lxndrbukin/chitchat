@@ -1,7 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { changeFriendRequestStatus, UserProps, RootState } from '../../store';
-import { ShortInfoProps } from './types';
+import {
+  changeFriendRequestStatus,
+  addFriend,
+  UserProps,
+  RootState,
+} from '../../store';
+import { ShortInfoProps, RequestAction } from './types';
 import { Link } from 'react-router-dom';
 import { Button } from '../../assets/components/Button';
 
@@ -13,6 +18,9 @@ class _ProfileShortInfo extends React.Component<ShortInfoProps> {
       lastName: (this.props.user.userData as UserProps).fullName.lastName,
     };
     this.props.changeFriendRequestStatus({ ...user, requestAction });
+    if (requestAction === RequestAction.Accept) {
+      this.props.addFriend(user);
+    }
   };
 
   showSettings(): JSX.Element | null {
@@ -106,4 +114,5 @@ const mapStateToProps = ({ session, friendRequests }: RootState) => {
 
 export const ProfileShortInfo = connect(mapStateToProps, {
   changeFriendRequestStatus,
+  addFriend,
 })(_ProfileShortInfo);

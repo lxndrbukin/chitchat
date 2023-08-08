@@ -16,8 +16,8 @@ export interface ShortInfoProps {
   session: UserState;
   user: UserState;
   friendRequests: FriendRequestsState;
-  sendFriendRequest: Function;
   changeFriendRequestStatus: Function;
+  addFriend: Function;
 }
 
 export interface ProfileState {
@@ -39,6 +39,9 @@ export interface FormState {
   };
 }
 
-export interface EditFormProps {
-
+export enum RequestAction {
+  Accept = 'Accept',
+  Decline = 'Decline',
+  Send = 'Send',
+  Cancel = 'Cancel'
 }

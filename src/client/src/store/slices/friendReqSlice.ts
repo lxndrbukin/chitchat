@@ -1,9 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { FriendRequestsState, FriendRequests, FriendRequestsPayload } from './types';
 import { getFriendRequests } from '../thunks/getFriendRequests';
-import { sendFriendRequest } from '../thunks/sendFriendRequest';
 import { changeFriendRequestStatus } from '../thunks/changeFriendRequestStatus';
-import { RequestAction } from '../thunks/types';
 
 const initialState: FriendRequestsState = {
   loading: false,
@@ -30,23 +28,23 @@ export const friendReqSlice = createSlice({
     builder.addCase(getFriendRequests.pending, (state: FriendRequestsState): void => {
       state.loading = true;
     });
-    builder.addCase(sendFriendRequest.fulfilled, (state, action) => {
-      state.requests = {
-        ...state.requests,
-
-      };
-    });
     builder.addCase(changeFriendRequestStatus.fulfilled, (state: FriendRequestsState, action: PayloadAction<FriendRequestsPayload>) => {
+      console.log(action.payload);
       state.loading = false;
-      if (action.payload.requestAction === RequestAction.Accept || action.payload.requestAction === RequestAction.Decline) {
+      if (action.payload.requestAction === 'Accept' || action.payload.requestAction === 'Decline') {
         state.requests = {
           ...state.requests,
           received: state.requests.received.filter(request => request.userId !== action.payload.userId)
         };
-      } else if (action.payload.requestAction === RequestAction.Send) {
+      } else if (action.payload.requestAction === 'Send') {
         state.requests = {
           ...state.requests,
           sent: [...state.requests.sent, { userId: action.payload.userId, fullName: { firstName: action.payload.firstName, lastName: action.payload.lastName } }]
+        };
+      } else if (action.payload.requestAction === 'Cancel') {
+        state.requests = {
+          ...state.requests,
+          sent: state.requests.sent.filter(request => request.userId !== action.payload.userId)
         };
       }
     });

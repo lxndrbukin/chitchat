@@ -54,8 +54,7 @@ class AuthController {
 
   @get('/logout')
   getLogout(req: Request, res: Response) {
-    console.log('hi');
-    req.session = undefined;
-    res.send(req.session);
+    req.session = null;
+    res.send({});
   }
 }

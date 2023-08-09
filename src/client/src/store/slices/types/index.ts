@@ -25,7 +25,7 @@ export interface FriendRequestsPayload {
   userId: string;
   firstName: string;
   lastName: string;
-  requestAction: RequestAction;
+  requestAction: string;
 }
 
 export interface FriendRequests {
@@ -47,5 +47,19 @@ export interface FriendRequestsState {
     sent: FriendRequestProps[];
     received: FriendRequestProps[];
   };
+  error: string;
+}
+
+export interface FriendProps {
+  userId: string;
+  fullName: {
+    firstName: string;
+    lastName: string;
+  };
+}
+
+export interface FriendsListState {
+  loading: boolean;
+  list: FriendProps[];
   error: string;
 }

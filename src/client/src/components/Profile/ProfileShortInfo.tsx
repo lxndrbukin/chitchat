@@ -6,7 +6,7 @@ import {
   UserProps,
   RootState,
 } from '../../store';
-import { ShortInfoProps, RequestAction } from './types';
+import { ShortInfoProps } from './types';
 import { Link } from 'react-router-dom';
 import { Button } from '../../assets/components/Button';
 
@@ -18,7 +18,7 @@ class _ProfileShortInfo extends React.Component<ShortInfoProps> {
       lastName: (this.props.user.userData as UserProps).fullName.lastName,
     };
     this.props.changeFriendRequestStatus({ ...user, requestAction });
-    if (requestAction === RequestAction.Accept) {
+    if (requestAction === 'Accept') {
       this.props.addFriend(user);
     }
   };
@@ -41,10 +41,14 @@ class _ProfileShortInfo extends React.Component<ShortInfoProps> {
   showAddFriend(): JSX.Element | null {
     const { loggedIn } = this.props.session;
     const friendRequests = this.props.friendRequests.requests;
+    const friendsList = this.props.friendsList.list;
     const userId = (this.props.user.userData as UserProps)._id;
     const sessionId = (this.props.session.userData as UserProps)._id;
     if (userId !== sessionId && loggedIn) {
-      if (friendRequests.received.filter((req) => req.userId === userId)) {
+      if (
+        friendRequests.received.filter((req) => req.userId === userId).length >
+        0
+      ) {
         return (
           <Button
             onClick={() => this.changeFriendRequestStatus('Accept')}
@@ -54,7 +58,9 @@ class _ProfileShortInfo extends React.Component<ShortInfoProps> {
           </Button>
         );
       }
-      if (friendRequests.sent.filter((req) => req.userId === userId)) {
+      if (
+        friendRequests.sent.filter((req) => req.userId === userId).length > 0
+      ) {
         return (
           <Button
             onClick={() => this.changeFriendRequestStatus('Cancel')}
@@ -105,10 +111,15 @@ class _ProfileShortInfo extends React.Component<ShortInfoProps> {
   }
 }
 
-const mapStateToProps = ({ session, friendRequests }: RootState) => {
+const mapStateToProps = ({
+  session,
+  friendRequests,
+  friendsList,
+}: RootState) => {
   return {
     session,
     friendRequests,
+    friendsList,
   };
 };
 

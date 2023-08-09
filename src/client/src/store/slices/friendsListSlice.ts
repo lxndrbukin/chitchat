@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { getFriendsList } from '../thunks/getFriendsList';
+import { FriendsListState } from './types';
 
-const initialState = {
+const initialState: FriendsListState = {
   loading: false,
   list: [],
   error: ''

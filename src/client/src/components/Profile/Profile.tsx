@@ -23,6 +23,10 @@ class _Profile extends React.Component<ProfileProps> {
     }
   }
 
+  componentDidMount(): void {
+    this.props.getUser(this.props.params.userId);
+  }
+
   render(): JSX.Element {
     const { session, user } = this.props;
     if (user) {

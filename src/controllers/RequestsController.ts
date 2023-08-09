@@ -40,7 +40,7 @@ class RequestsController {
           lastName: req.body.lastName
         }
       };
-      if (req.body.requestAction === RequestAction.Send) {
+      if (req.body.requestAction === 'Send') {
         if (currentUserReqs) {
           await currentUserReqs.updateOne({ $push: { sent: otherUser } });
         } else {
@@ -51,15 +51,15 @@ class RequestsController {
         } else {
           await FriendReqs.create({ userId: req.body.userId, received: [sessionUser] });
         }
-      } else if (req.body.requestAction === RequestAction.Accept || req.body.requestAction === RequestAction.Decline) {
+      } else if (req.body.requestAction === 'Accept' || req.body.requestAction === 'Decline') {
         await currentUserReqs?.updateOne({ $pull: { received: otherUser } });
         await otherUserReqs?.updateOne({ $pull: { sent: sessionUser } });
-      } else if (req.body.requestAction === RequestAction.Cancel) {
+      } else if (req.body.requestAction === 'Cancel') {
         await currentUserReqs?.updateOne({ $pull: { sent: otherUser } });
         await otherUserReqs?.updateOne({ $pull: { received: sessionUser } });
       }
+      return res.send({ ...otherUser, requestAction: req.body.requestAction });
     }
-    return;
   }
   @get('/friends_list/:userId')
   @use(requireAuth)
@@ -72,6 +72,7 @@ class RequestsController {
     }
   }
 
+  @post('/friends_list')
   async postFriendsList(req: Request, res: Response) {
     if (req.session) {
       const currentUserList = await FriendsList.findOne({ userId: req.session.id });
@@ -100,6 +101,7 @@ class RequestsController {
       } else {
         await FriendsList.create({ userId: req.body.userId, friendsList: [sessionUser] });
       }
+      return res.send(currentUserList);
     }
   }
 }

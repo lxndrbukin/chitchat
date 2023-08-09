@@ -31,7 +31,7 @@ class _App extends React.Component<AppProps> {
     prevState: Readonly<{}>,
     snapshot?: any
   ): void {
-    if (this.props.session.loggedIn !== prevProps.session.loggedIn) {
+    if (this.props.session.loggedIn) {
       this.props.getFriendRequests(
         (this.props.session.userData as UserProps)._id
       );

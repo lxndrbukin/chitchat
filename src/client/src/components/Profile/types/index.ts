@@ -1,4 +1,4 @@
-import { UserState, FriendRequestsState } from '../../../store';
+import { UserState, FriendRequestsState, FriendsListState } from '../../../store';
 import { Params } from 'react-router-dom';
 
 interface MatchParams {
@@ -16,6 +16,7 @@ export interface ShortInfoProps {
   session: UserState;
   user: UserState;
   friendRequests: FriendRequestsState;
+  friendsList: FriendsListState;
   changeFriendRequestStatus: Function;
   addFriend: Function;
 }
@@ -44,4 +45,8 @@ export enum RequestAction {
   Decline = 'Decline',
   Send = 'Send',
   Cancel = 'Cancel'
+}
+
+export interface EditFormProps {
+
 }

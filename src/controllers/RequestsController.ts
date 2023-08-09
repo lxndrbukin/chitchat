@@ -41,19 +41,15 @@ class RequestsController {
         }
       };
       if (req.body.requestAction === RequestAction.Send) {
-        if (!currentUserReqs && !otherUserReqs) {
-          await FriendReqs.create({
-            userId: req.session.id, sent: [otherUser]
-          });
-          await FriendReqs.create({
-            userId: req.body.userId, received: [sessionUser]
-          });
-        } else if (currentUserReqs && !otherUserReqs) {
+        if (currentUserReqs) {
           await currentUserReqs.updateOne({ $push: { sent: otherUser } });
-          await FriendReqs.create({ userId: req.body.userId, received: [sessionUser] });
-        } else if (!currentUserReqs && otherUserReqs) {
+        } else {
           await FriendReqs.create({ userId: req.session.id, sent: [otherUser] });
+        }
+        if (otherUserReqs) {
           await otherUserReqs.updateOne({ $push: { received: sessionUser } });
+        } else {
+          await FriendReqs.create({ userId: req.body.userId, received: [sessionUser] });
         }
       } else if (req.body.requestAction === RequestAction.Accept || req.body.requestAction === RequestAction.Decline) {
         await currentUserReqs?.updateOne({ $pull: { received: otherUser } });
@@ -94,11 +90,14 @@ class RequestsController {
           lastName: req.body.lastName
         }
       };
-      if (!currentUserList && !otherUserList) {
-        await FriendsList.create({ userId: req.session.id, friendsList: [otherUser] });
-        await FriendsList.create({ userId: req.body.userId, friendsList: [sessionUser] });
-      } else if (currentUserList && !otherUserList) {
+      if (currentUserList) {
         await currentUserList.updateOne({ $push: { friendsList: otherUser } });
+      } else {
+        await FriendsList.create({ userId: req.session.id, friendsList: [otherUser] });
+      }
+      if (otherUserList) {
+        await otherUserList.updateOne({ $push: { friendsList: sessionUser } });
+      } else {
         await FriendsList.create({ userId: req.body.userId, friendsList: [sessionUser] });
       }
     }

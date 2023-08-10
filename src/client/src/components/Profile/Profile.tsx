@@ -3,21 +3,18 @@ import React from 'react';
 import { withParams } from '../../assets/hooks';
 import { ProfileProps } from './types';
 import { connect } from 'react-redux';
-import { getCurrentUser, getUser, RootState, UserProps } from '../../store';
+import {
+  getCurrentUser,
+  getUser,
+  getFriendsList,
+  RootState,
+} from '../../store';
 import { ProfileShortInfo } from './ProfileShortInfo';
 import { ProfilePosts } from './ProfilePosts';
 import { ProfileFriendsBox } from './ProfileFriendsBox';
 
 class _Profile extends React.Component<ProfileProps> {
-  constructor(props: ProfileProps) {
-    super(props);
-  }
-
-  componentDidUpdate(
-    prevProps: Readonly<ProfileProps>,
-    prevState: Readonly<{}>,
-    snapshot?: any
-  ): void {
+  componentDidUpdate(prevProps: Readonly<ProfileProps>): void {
     if (this.props.params.userId !== prevProps.params.userId) {
       this.props.getUser(this.props.params.userId);
     }
@@ -25,6 +22,7 @@ class _Profile extends React.Component<ProfileProps> {
 
   componentDidMount(): void {
     this.props.getUser(this.props.params.userId);
+    this.props.getFriendsList(this.props.params.userId);
   }
 
   render(): JSX.Element {
@@ -61,6 +59,8 @@ const mapStateToProps = ({ session, user }: RootState) => {
   };
 };
 
-export const Profile = connect(mapStateToProps, { getCurrentUser, getUser })(
-  withParams(_Profile)
-);
+export const Profile = connect(mapStateToProps, {
+  getCurrentUser,
+  getFriendsList,
+  getUser,
+})(withParams(_Profile));

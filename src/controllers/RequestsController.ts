@@ -65,9 +65,9 @@ class RequestsController {
   @use(requireAuth)
   async getFriendsList(req: Request, res: Response) {
     if (req.session) {
-      const friendsList = await FriendsList.findOne({ userId: req.params.userId }).select('-_id -__v');
-      if (friendsList) {
-        res.send(friendsList);
+      const friendsListInstance = await FriendsList.findOne({ userId: req.params.userId }).select('-_id -__v');
+      if (friendsListInstance) {
+        return res.send(friendsListInstance.friendsList);
       }
     }
   }

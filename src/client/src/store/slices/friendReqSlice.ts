@@ -29,7 +29,6 @@ export const friendReqSlice = createSlice({
       state.loading = true;
     });
     builder.addCase(changeFriendRequestStatus.fulfilled, (state: FriendRequestsState, action: PayloadAction<FriendRequestsPayload>) => {
-      console.log(action.payload);
       state.loading = false;
       if (action.payload.requestAction === 'Accept' || action.payload.requestAction === 'Decline') {
         state.requests = {
@@ -47,6 +46,9 @@ export const friendReqSlice = createSlice({
           sent: state.requests.sent.filter(request => request.userId !== action.payload.userId)
         };
       }
+    });
+    builder.addCase(changeFriendRequestStatus.pending, (state: FriendRequestsState) => {
+      state.loading = true;
     });
   }
 });

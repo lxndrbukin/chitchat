@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
   changeFriendRequestStatus,
@@ -7,8 +8,9 @@ import {
   RootState,
 } from '../../store';
 import { ShortInfoProps } from './types';
-import { Link } from 'react-router-dom';
 import { Button } from '../../assets/components/Button';
+import { CgSpinner } from 'react-icons/cg';
+import { BsFillPersonCheckFill } from 'react-icons/bs';
 
 class _ProfileShortInfo extends React.Component<ShortInfoProps> {
   changeFriendRequestStatus = (requestAction: string): void => {
@@ -38,46 +40,81 @@ class _ProfileShortInfo extends React.Component<ShortInfoProps> {
     return null;
   }
 
-  showAddFriend(): JSX.Element | null {
+  showAcceptButton(): JSX.Element {
+    return (
+      <Button
+        onClick={() => this.changeFriendRequestStatus('Accept')}
+        buttonType={'primary'}
+      >
+        Accept
+      </Button>
+    );
+  }
+
+  showLoadingSpinner(): JSX.Element {
+    return (
+      <Button style={{ height: '34px' }} buttonType={'primary'}>
+        <CgSpinner size={20} />
+      </Button>
+    );
+  }
+
+  showCancelButton(): JSX.Element {
+    return (
+      <Button
+        onClick={() => this.changeFriendRequestStatus('Cancel')}
+        buttonType={'primary'}
+      >
+        Cancel
+      </Button>
+    );
+  }
+
+  showAddFriendButton(): JSX.Element {
+    return (
+      <Button
+        onClick={() => this.changeFriendRequestStatus('Send')}
+        buttonType={'primary'}
+      >
+        Add Friend
+      </Button>
+    );
+  }
+
+  showAddedFriendButton(): JSX.Element {
+    return (
+      <Button buttonType={'primary'}>
+        <BsFillPersonCheckFill size={20} />
+      </Button>
+    );
+  }
+
+  showButton(): JSX.Element | null {
     const { loggedIn } = this.props.session;
-    const friendRequests = this.props.friendRequests.requests;
+    const loadingReqs = this.props.friendRequests.loading;
+    const { received, sent } = this.props.friendRequests.requests;
     const friendsList = this.props.friendsList.list;
     const userId = (this.props.user.userData as UserProps)._id;
     const sessionId = (this.props.session.userData as UserProps)._id;
     if (userId !== sessionId && loggedIn) {
-      if (
-        friendRequests.received.filter((req) => req.userId === userId).length >
-        0
-      ) {
-        return (
-          <Button
-            onClick={() => this.changeFriendRequestStatus('Accept')}
-            buttonType={'primary'}
-          >
-            Accept
-          </Button>
-        );
+      if (loadingReqs) {
+        return this.showLoadingSpinner();
       }
-      if (
-        friendRequests.sent.filter((req) => req.userId === userId).length > 0
-      ) {
-        return (
-          <Button
-            onClick={() => this.changeFriendRequestStatus('Cancel')}
-            buttonType={'primary'}
-          >
-            Cancel
-          </Button>
-        );
+      if (received.filter((req) => req.userId === userId).length > 0) {
+        return this.showAcceptButton();
       }
-      return (
-        <Button
-          onClick={() => this.changeFriendRequestStatus('Send')}
-          buttonType={'primary'}
-        >
-          Add Friend
-        </Button>
-      );
+      if (sent.filter((req) => req.userId === userId).length > 0) {
+        return this.showCancelButton();
+      }
+      if (friendsList && friendsList.length !== 0) {
+        console.log('friend');
+        if (
+          friendsList.filter((friend) => friend.userId === sessionId).length > 0
+        ) {
+          return this.showAddedFriendButton();
+        }
+      }
+      return this.showAddFriendButton();
     }
     return null;
   }
@@ -102,7 +139,7 @@ class _ProfileShortInfo extends React.Component<ShortInfoProps> {
                 </span>
               </div>
             </div>
-            {this.showAddFriend()}
+            {this.showButton()}
             {this.showSettings()}
           </div>
         </div>

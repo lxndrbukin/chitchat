@@ -10,6 +10,7 @@ export interface ProfileProps extends MatchParams {
   user: UserState;
   getUser: Function;
   getCurrentUser: Function;
+  getFriendsList: Function;
 }
 
 export interface ShortInfoProps {

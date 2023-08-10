@@ -17,7 +17,7 @@ export const friendsListSlice = createSlice({
       state.loading = false;
       state.list = action.payload;
     });
-    builder.addCase(getFriendsList.pending, (state, action) => {
+    builder.addCase(getFriendsList.pending, (state) => {
       state.loading = true;
     });
   }

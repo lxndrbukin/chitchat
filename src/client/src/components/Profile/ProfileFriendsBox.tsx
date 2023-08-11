@@ -4,7 +4,7 @@ import { RootState } from '../../store';
 import { FriendsBoxProps, FriendProps } from './types';
 import { Link } from 'react-router-dom';
 
-class _ProfileFriendsBox extends React.Component<FriendsBoxProps> {
+export class ProfileFriendsBox extends React.Component<FriendsBoxProps> {
   renderFriends(): JSX.Element[] {
     return this.props.friendsList.list.map((friend) => {
       return this.renderFriend(friend);
@@ -41,5 +41,3 @@ const mapStateToProps = ({ friendsList }: RootState) => {
     friendsList,
   };
 };
-
-export const ProfileFriendsBox = connect(mapStateToProps)(_ProfileFriendsBox);

@@ -42,7 +42,7 @@ class _Profile extends React.Component<ProfileProps> {
               <ProfilePosts />
             </div>
             <div className='profile-section-right'>
-              <ProfileFriendsBox />
+              <ProfileFriendsBox friendsList={this.props.friendsList} />
             </div>
           </div>
         ) : (
@@ -57,6 +57,7 @@ const mapStateToProps = ({ session, user }: RootState) => {
   return {
     session,
     user,
+    getFriendsList,
   };
 };
 

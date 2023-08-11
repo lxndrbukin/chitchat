@@ -91,15 +91,20 @@ class RequestsController {
           lastName: req.body.lastName
         }
       };
-      if (currentUserList) {
-        await currentUserList.updateOne({ $push: { friendsList: otherUser } });
-      } else {
-        await FriendsList.create({ userId: req.session.id, friendsList: [otherUser] });
-      }
-      if (otherUserList) {
-        await otherUserList.updateOne({ $push: { friendsList: sessionUser } });
-      } else {
-        await FriendsList.create({ userId: req.body.userId, friendsList: [sessionUser] });
+      if (req.body.requestAction === 'Add') {
+        if (currentUserList) {
+          await currentUserList.updateOne({ $push: { friendsList: otherUser } });
+        } else {
+          await FriendsList.create({ userId: req.session.id, friendsList: [otherUser] });
+        }
+        if (otherUserList) {
+          await otherUserList.updateOne({ $push: { friendsList: sessionUser } });
+        } else {
+          await FriendsList.create({ userId: req.body.userId, friendsList: [sessionUser] });
+        }
+      } else if (req.body.requestAction === 'Remove') {
+        await currentUserList?.updateOne({ $pull: { friendsList: otherUser } });
+        await otherUserList?.updateOne({ $pull: { friendsList: sessionUser } });
       }
       return res.send(currentUserList);
     }

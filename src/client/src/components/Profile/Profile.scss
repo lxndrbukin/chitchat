@@ -5,14 +5,21 @@
   .profile-section {
     width: 100%;
 
-    .profile-section-right {
+    .profile-section-right {}
 
-      .profile-friends {
+    .profile-friends {
+      display: flex;
+      flex-direction: column;
+
+      .profile-friends-list {
         display: flex;
-        flex-direction: column;
 
-        .profile-friends-list {
+        .profile-friend {
+          width: 70px;
           display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
         }
       }
     }

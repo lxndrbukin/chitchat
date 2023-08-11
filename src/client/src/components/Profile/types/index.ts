@@ -8,6 +8,7 @@ interface MatchParams {
 export interface ProfileProps extends MatchParams {
   session: UserState;
   user: UserState;
+  friendsList: FriendsListState;
   getUser: Function;
   getCurrentUser: Function;
   getFriendsList: Function;

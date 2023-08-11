@@ -41,13 +41,18 @@ export interface FormState {
   };
 }
 
-export enum RequestAction {
-  Accept = 'Accept',
-  Decline = 'Decline',
-  Send = 'Send',
-  Cancel = 'Cancel'
-}
-
 export interface EditFormProps {
 
+}
+
+export interface FriendsBoxProps {
+  friendsList: FriendsListState;
+}
+
+export interface FriendProps {
+  userId: string;
+  fullName: {
+    firstName: string;
+    lastName: string;
+  };
 }

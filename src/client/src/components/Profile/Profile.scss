@@ -4,6 +4,18 @@
 
   .profile-section {
     width: 100%;
+
+    .profile-section-right {
+
+      .profile-friends {
+        display: flex;
+        flex-direction: column;
+
+        .profile-friends-list {
+          display: flex;
+        }
+      }
+    }
   }
 
   .short-info {
@@ -25,6 +37,11 @@
         .full-name {
           font-size: 2rem;
           font-weight: bold;
+        }
+
+        .short-info-buttons {
+          display: flex;
+          flex-direction: row;
         }
       }
     }

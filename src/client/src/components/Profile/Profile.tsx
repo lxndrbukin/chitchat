@@ -17,6 +17,7 @@ class _Profile extends React.Component<ProfileProps> {
   componentDidUpdate(prevProps: Readonly<ProfileProps>): void {
     if (this.props.params.userId !== prevProps.params.userId) {
       this.props.getUser(this.props.params.userId);
+      this.props.getFriendsList(this.props.params.userId);
     }
   }
 

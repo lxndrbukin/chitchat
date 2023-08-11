@@ -25,7 +25,7 @@ class _ProfileShortInfo extends React.Component<ShortInfoProps> {
     }
   };
 
-  showSettings(): JSX.Element | null {
+  renderSettings(): JSX.Element | null {
     const userId = (this.props.user.userData as UserProps)._id;
     const sessionId = (this.props.session.userData as UserProps)._id;
     if (userId === sessionId) {
@@ -40,7 +40,7 @@ class _ProfileShortInfo extends React.Component<ShortInfoProps> {
     return null;
   }
 
-  showAcceptButton(): JSX.Element {
+  renderAcceptButton(): JSX.Element {
     return (
       <Button
         onClick={() => this.changeFriendRequestStatus('Accept')}
@@ -51,7 +51,7 @@ class _ProfileShortInfo extends React.Component<ShortInfoProps> {
     );
   }
 
-  showLoadingSpinner(): JSX.Element {
+  renderLoadingSpinner(): JSX.Element {
     return (
       <Button style={{ height: '34px' }} buttonType={'primary'}>
         <CgSpinner size={20} />
@@ -59,7 +59,7 @@ class _ProfileShortInfo extends React.Component<ShortInfoProps> {
     );
   }
 
-  showCancelButton(): JSX.Element {
+  renderCancelButton(): JSX.Element {
     return (
       <Button
         onClick={() => this.changeFriendRequestStatus('Cancel')}
@@ -70,7 +70,7 @@ class _ProfileShortInfo extends React.Component<ShortInfoProps> {
     );
   }
 
-  showAddFriendButton(): JSX.Element {
+  renderAddFriendButton(): JSX.Element {
     return (
       <Button
         onClick={() => this.changeFriendRequestStatus('Send')}
@@ -81,7 +81,7 @@ class _ProfileShortInfo extends React.Component<ShortInfoProps> {
     );
   }
 
-  showAddedFriendButton(): JSX.Element {
+  renderAddedFriendButton(): JSX.Element {
     return (
       <Button buttonType={'primary'}>
         <BsFillPersonCheckFill size={20} />
@@ -89,7 +89,7 @@ class _ProfileShortInfo extends React.Component<ShortInfoProps> {
     );
   }
 
-  showButton(): JSX.Element | null {
+  renderFriendButton(): JSX.Element | null {
     const { loggedIn } = this.props.session;
     const loadingReqs = this.props.friendRequests.loading;
     const { received, sent } = this.props.friendRequests.requests;
@@ -98,23 +98,37 @@ class _ProfileShortInfo extends React.Component<ShortInfoProps> {
     const sessionId = (this.props.session.userData as UserProps)._id;
     if (userId !== sessionId && loggedIn) {
       if (loadingReqs) {
-        return this.showLoadingSpinner();
+        return this.renderLoadingSpinner();
       }
       if (received.filter((req) => req.userId === userId).length > 0) {
-        return this.showAcceptButton();
+        return this.renderAcceptButton();
       }
       if (sent.filter((req) => req.userId === userId).length > 0) {
-        return this.showCancelButton();
+        return this.renderCancelButton();
       }
       if (friendsList && friendsList.length !== 0) {
         console.log('friend');
         if (
           friendsList.filter((friend) => friend.userId === sessionId).length > 0
         ) {
-          return this.showAddedFriendButton();
+          return this.renderAddedFriendButton();
         }
       }
-      return this.showAddFriendButton();
+      return this.renderAddFriendButton();
+    }
+    return null;
+  }
+
+  renderMessageButton(): JSX.Element | null {
+    const { loggedIn } = this.props.session;
+    const userId = (this.props.user.userData as UserProps)._id;
+    const sessionId = (this.props.session.userData as UserProps)._id;
+    if (loggedIn && userId !== sessionId) {
+      return (
+        <Link to={`/chats?user=${userId}`}>
+          <Button buttonType={'primary'}>Message</Button>
+        </Link>
+      );
     }
     return null;
   }
@@ -139,8 +153,11 @@ class _ProfileShortInfo extends React.Component<ShortInfoProps> {
                 </span>
               </div>
             </div>
-            {this.showButton()}
-            {this.showSettings()}
+            <div className='short-info-buttons'>
+              {this.renderMessageButton()}
+              {this.renderFriendButton()}
+              {this.renderSettings()}
+            </div>
           </div>
         </div>
       </div>

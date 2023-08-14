@@ -16,6 +16,7 @@ export interface FriendProps {
   userId: string;
   firstName: string;
   lastName: string;
+  requestAction: string;
 };
 
 export interface FriendRequestProps extends FriendProps {

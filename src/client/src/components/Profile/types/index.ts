@@ -20,7 +20,7 @@ export interface ShortInfoProps {
   friendRequests: FriendRequestsState;
   friendsList: FriendsListState;
   changeFriendRequestStatus: Function;
-  addFriend: Function;
+  changeFriendStatus: Function;
 }
 
 export interface ProfileState {

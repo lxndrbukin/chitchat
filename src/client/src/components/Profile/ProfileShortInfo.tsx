@@ -1,138 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import {
-  changeFriendRequestStatus,
-  addFriend,
-  UserProps,
-  RootState,
-} from '../../store';
+import { UserProps, RootState } from '../../store';
 import { ShortInfoProps } from './types';
-import { Button } from '../../assets/components/Button';
-import { CgSpinner } from 'react-icons/cg';
-import { BsFillPersonCheckFill } from 'react-icons/bs';
+import { ProfileShortInfoButtons } from './ProfileShortInfoButtons';
 
 class _ProfileShortInfo extends React.Component<ShortInfoProps> {
-  changeFriendRequestStatus = (requestAction: string): void => {
-    const user = {
-      userId: (this.props.user.userData as UserProps)._id,
-      firstName: (this.props.user.userData as UserProps).fullName.firstName,
-      lastName: (this.props.user.userData as UserProps).fullName.lastName,
-    };
-    this.props.changeFriendRequestStatus({ ...user, requestAction });
-    if (requestAction === 'Accept') {
-      this.props.addFriend(user);
-    }
-  };
-
-  renderSettings(): JSX.Element | null {
-    const userId = (this.props.user.userData as UserProps)._id;
-    const sessionId = (this.props.session.userData as UserProps)._id;
-    if (userId === sessionId) {
-      return (
-        <div className='header-buttons'>
-          <Link to={`/profile/${sessionId}/edit`}>
-            <Button buttonType='primary'>Edit Profile</Button>
-          </Link>
-        </div>
-      );
-    }
-    return null;
-  }
-
-  renderAcceptButton(): JSX.Element {
-    return (
-      <Button
-        onClick={() => this.changeFriendRequestStatus('Accept')}
-        buttonType={'primary'}
-      >
-        Accept
-      </Button>
-    );
-  }
-
-  renderLoadingSpinner(): JSX.Element {
-    return (
-      <Button style={{ height: '34px' }} buttonType={'primary'}>
-        <CgSpinner size={20} />
-      </Button>
-    );
-  }
-
-  renderCancelButton(): JSX.Element {
-    return (
-      <Button
-        onClick={() => this.changeFriendRequestStatus('Cancel')}
-        buttonType={'primary'}
-      >
-        Cancel
-      </Button>
-    );
-  }
-
-  renderAddFriendButton(): JSX.Element {
-    return (
-      <Button
-        onClick={() => this.changeFriendRequestStatus('Send')}
-        buttonType={'primary'}
-      >
-        Add Friend
-      </Button>
-    );
-  }
-
-  renderAddedFriendButton(): JSX.Element {
-    return (
-      <Button buttonType={'primary'}>
-        <BsFillPersonCheckFill size={20} />
-      </Button>
-    );
-  }
-
-  renderFriendButton(): JSX.Element | null {
-    const { loggedIn } = this.props.session;
-    const loadingReqs = this.props.friendRequests.loading;
-    const { received, sent } = this.props.friendRequests.requests;
-    const friendsList = this.props.friendsList.list;
-    const userId = (this.props.user.userData as UserProps)._id;
-    const sessionId = (this.props.session.userData as UserProps)._id;
-    if (userId !== sessionId && loggedIn) {
-      if (loadingReqs) {
-        return this.renderLoadingSpinner();
-      }
-      if (received.filter((req) => req.userId === userId).length > 0) {
-        return this.renderAcceptButton();
-      }
-      if (sent.filter((req) => req.userId === userId).length > 0) {
-        return this.renderCancelButton();
-      }
-      if (friendsList && friendsList.length !== 0) {
-        console.log('friend');
-        if (
-          friendsList.filter((friend) => friend.userId === sessionId).length > 0
-        ) {
-          return this.renderAddedFriendButton();
-        }
-      }
-      return this.renderAddFriendButton();
-    }
-    return null;
-  }
-
-  renderMessageButton(): JSX.Element | null {
-    const { loggedIn } = this.props.session;
-    const userId = (this.props.user.userData as UserProps)._id;
-    const sessionId = (this.props.session.userData as UserProps)._id;
-    if (loggedIn && userId !== sessionId) {
-      return (
-        <Link to={`/chats?user=${userId}`}>
-          <Button buttonType={'primary'}>Message</Button>
-        </Link>
-      );
-    }
-    return null;
-  }
-
   render(): JSX.Element {
     const { loading } = this.props.user;
     const { fullName } = this.props.user.userData as UserProps;
@@ -153,11 +25,7 @@ class _ProfileShortInfo extends React.Component<ShortInfoProps> {
                 </span>
               </div>
             </div>
-            <div className='short-info-buttons'>
-              {this.renderMessageButton()}
-              {this.renderFriendButton()}
-              {this.renderSettings()}
-            </div>
+            <ProfileShortInfoButtons />
           </div>
         </div>
       </div>
@@ -177,7 +45,4 @@ const mapStateToProps = ({
   };
 };
 
-export const ProfileShortInfo = connect(mapStateToProps, {
-  changeFriendRequestStatus,
-  addFriend,
-})(_ProfileShortInfo);
+export const ProfileShortInfo = connect(mapStateToProps)(_ProfileShortInfo);

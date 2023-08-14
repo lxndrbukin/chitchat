@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import { controller, use, get, post } from './decorators';
 import { requireAuth } from './middlewares';
-import { RequestAction } from './types';
 import FriendReqs from '../models/FriendRequests';
 import FriendsList from '../models/FriendsList';
 

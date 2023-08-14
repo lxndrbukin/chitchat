@@ -1,11 +1,11 @@
 @import '../../assets/styling/variables.scss';
 
 .profile {
-
   .profile-section {
     width: 100%;
 
-    .profile-section-right {}
+    .profile-section-right {
+    }
 
     .profile-friends {
       display: flex;
@@ -49,6 +49,23 @@
         .short-info-buttons {
           display: flex;
           flex-direction: row;
+
+          .short-info-friend-settings {
+            display: flex;
+            flex-direction: column;
+            background-color: $dark-grey-two;
+
+            .short-info-friend-settings-dropdown {
+              display: flex;
+              flex-direction: column;
+
+              button {
+                background-color: transparent;
+                border: none;
+                color: $white;
+              }
+            }
+          }
         }
       }
     }

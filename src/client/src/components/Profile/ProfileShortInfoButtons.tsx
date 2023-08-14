@@ -9,8 +9,13 @@ import {
 } from '../../store';
 import { Link } from 'react-router-dom';
 import { CgSpinner } from 'react-icons/cg';
-import { BsFillPersonCheckFill } from 'react-icons/bs';
 import { FiChevronDown } from 'react-icons/fi';
+import {
+  FaUserSlash,
+  FaUserPlus,
+  FaUserTimes,
+  FaUserCheck,
+} from 'react-icons/fa';
 import { Button } from '../../assets/components/Button';
 
 class _ProfilShortInfoButtons extends React.Component<ShortInfoProps> {
@@ -61,6 +66,7 @@ class _ProfilShortInfoButtons extends React.Component<ShortInfoProps> {
         buttonType={'primary'}
       >
         Accept
+        <FaUserPlus size={20} />
       </Button>
     );
   }
@@ -80,8 +86,22 @@ class _ProfilShortInfoButtons extends React.Component<ShortInfoProps> {
         buttonType={'primary'}
       >
         Cancel
+        <FaUserTimes size={20} />
       </Button>
     );
+  }
+
+  renderFriendSettings(): JSX.Element | null {
+    if (this.state.showFriendSettings) {
+      return (
+        <div className='short-info-friend-settings-dropdown'>
+          <button onClick={this.removeFriend}>
+            Unfriend <FaUserSlash size={20} />
+          </button>
+        </div>
+      );
+    }
+    return null;
   }
 
   renderAddFriendButton(): JSX.Element {
@@ -91,19 +111,24 @@ class _ProfilShortInfoButtons extends React.Component<ShortInfoProps> {
         buttonType={'primary'}
       >
         Add Friend
+        <FaUserPlus size={20} />
       </Button>
     );
   }
 
   renderAddedFriendButton(): JSX.Element {
     return (
-      <Button
-        onMouseOver={() => this.setState({ showFriendSettings: true })}
-        buttonType={'primary'}
-      >
-        <BsFillPersonCheckFill size={20} />
-        <FiChevronDown size={20} />
-      </Button>
+      <div className='short-info-friend-settings'>
+        <Button
+          onMouseOver={() => this.setState({ showFriendSettings: true })}
+          onMouseOut={() => this.setState({ showFriendSettings: false })}
+          buttonType={'primary'}
+        >
+          <FaUserCheck size={20} />
+          <FiChevronDown size={20} />
+        </Button>
+        {this.renderFriendSettings()}
+      </div>
     );
   }
 
@@ -136,17 +161,6 @@ class _ProfilShortInfoButtons extends React.Component<ShortInfoProps> {
     return null;
   }
 
-  renderFriendSettings(): JSX.Element | null {
-    if (this.state.showFriendSettings) {
-      return (
-        <div className='short-info-friend-settings'>
-          <button onClick={this.removeFriend}>Remove</button>
-        </div>
-      );
-    }
-    return null;
-  }
-
   renderMessageButton(): JSX.Element | null {
     const { loggedIn } = this.props.session;
     const userId = (this.props.user.userData as UserProps)._id;
@@ -162,7 +176,12 @@ class _ProfilShortInfoButtons extends React.Component<ShortInfoProps> {
   }
 
   render(): JSX.Element {
-    return <div className='short-info-buttons'></div>;
+    return (
+      <div className='short-info-buttons'>
+        {this.renderMessageButton()}
+        {this.renderFriendButton()}
+      </div>
+    );
   }
 }
 

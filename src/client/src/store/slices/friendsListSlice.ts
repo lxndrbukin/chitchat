@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { getFriendsList } from '../thunks/getFriendsList';
+import { changeFriendStatus } from '../thunks/changeFriendStatus';
 import { FriendsListState } from './types';
 
 const initialState: FriendsListState = {
@@ -20,6 +21,7 @@ export const friendsListSlice = createSlice({
     builder.addCase(getFriendsList.pending, (state) => {
       state.loading = true;
     });
+
   }
 });
 

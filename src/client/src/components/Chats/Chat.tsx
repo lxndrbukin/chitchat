@@ -2,6 +2,6 @@ import React from 'react';
 
 export class Chat extends React.Component {
   render(): JSX.Element {
-    return <div className='chat'></div>;
+    return <div className='chat'>Chat</div>;
   }
 }

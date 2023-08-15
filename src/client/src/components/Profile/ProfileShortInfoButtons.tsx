@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { ShortInfoProps } from './types';
+import { ShortInfoButtonsProps } from './types';
 import {
   UserProps,
   RootState,
@@ -16,9 +16,10 @@ import {
   FaUserTimes,
   FaUserCheck,
 } from 'react-icons/fa';
+import { AiFillMessage } from 'react-icons/ai';
 import { Button } from '../../assets/components/Button';
 
-class _ProfilShortInfoButtons extends React.Component<ShortInfoProps> {
+class _ProfilShortInfoButtons extends React.Component<ShortInfoButtonsProps> {
   state = {
     showFriendSettings: false,
   };
@@ -94,7 +95,11 @@ class _ProfilShortInfoButtons extends React.Component<ShortInfoProps> {
   renderFriendSettings(): JSX.Element | null {
     if (this.state.showFriendSettings) {
       return (
-        <div className='short-info-friend-settings-dropdown'>
+        <div
+          onMouseOver={() => this.setState({ showFriendSettings: true })}
+          onMouseOut={() => this.setState({ showFriendSettings: false })}
+          className='short-info-friend-settings-dropdown'
+        >
           <button onClick={this.removeFriend}>
             Unfriend <FaUserSlash size={20} />
           </button>
@@ -168,7 +173,9 @@ class _ProfilShortInfoButtons extends React.Component<ShortInfoProps> {
     if (loggedIn && userId !== sessionId) {
       return (
         <Link to={`/chats?user=${userId}`}>
-          <Button buttonType={'primary'}>Message</Button>
+          <Button buttonType={'primary'}>
+            Message <AiFillMessage size={20} />
+          </Button>
         </Link>
       );
     }

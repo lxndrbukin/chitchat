@@ -7,7 +7,9 @@ import {
   getCurrentUser,
   getUser,
   getFriendsList,
+  getFriendRequests,
   RootState,
+  UserState,
 } from '../../store';
 import { ProfileShortInfo } from './ProfileShortInfo';
 import { ProfilePosts } from './ProfilePosts';
@@ -17,12 +19,17 @@ class _Profile extends React.Component<ProfileProps> {
   componentDidUpdate(prevProps: Readonly<ProfileProps>): void {
     if (this.props.params.userId !== prevProps.params.userId) {
       this.props.getUser(this.props.params.userId);
+      this.props.getFriendRequests(this.props.params.userId);
+      this.props.getFriendsList(this.props.params.userId);
+    }
+    if (this.props.friendRequests !== prevProps.friendRequests) {
       this.props.getFriendsList(this.props.params.userId);
     }
   }
 
   componentDidMount(): void {
     this.props.getUser(this.props.params.userId);
+    this.props.getFriendRequests(this.props.params.userId);
     this.props.getFriendsList(this.props.params.userId);
   }
 
@@ -53,16 +60,23 @@ class _Profile extends React.Component<ProfileProps> {
   }
 }
 
-const mapStateToProps = ({ session, user }: RootState) => {
+const mapStateToProps = ({
+  session,
+  user,
+  friendsList,
+  friendRequests,
+}: RootState) => {
   return {
     session,
     user,
-    getFriendsList,
+    friendsList,
+    friendRequests,
   };
 };
 
 export const Profile = connect(mapStateToProps, {
   getCurrentUser,
   getFriendsList,
+  getFriendRequests,
   getUser,
 })(withParams(_Profile));

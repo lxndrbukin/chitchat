@@ -9,9 +9,11 @@ export interface ProfileProps extends MatchParams {
   session: UserState;
   user: UserState;
   friendsList: FriendsListState;
+  friendRequests: FriendRequestsState;
   getUser: Function;
   getCurrentUser: Function;
   getFriendsList: Function;
+  getFriendRequests: Function;
 }
 
 export interface ShortInfoProps {
@@ -19,6 +21,9 @@ export interface ShortInfoProps {
   user: UserState;
   friendRequests: FriendRequestsState;
   friendsList: FriendsListState;
+}
+
+export interface ShortInfoButtonsProps extends ShortInfoProps {
   changeFriendRequestStatus: Function;
   changeFriendStatus: Function;
 }

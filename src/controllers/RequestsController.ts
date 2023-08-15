@@ -74,8 +74,8 @@ class RequestsController {
   @post('/friends_list')
   async postFriendsList(req: Request, res: Response) {
     if (req.session) {
-      const currentUserList = await FriendsList.findOne({ userId: req.session.id });
-      const otherUserList = await FriendsList.findOne({ userId: req.body.userId });
+      let currentUserList = await FriendsList.findOne({ userId: req.session.id });
+      let otherUserList = await FriendsList.findOne({ userId: req.body.userId });
       const sessionUser = {
         userId: req.session.id,
         fullName: {
@@ -105,7 +105,8 @@ class RequestsController {
         await currentUserList?.updateOne({ $pull: { friendsList: otherUser } });
         await otherUserList?.updateOne({ $pull: { friendsList: sessionUser } });
       }
-      return res.send(currentUserList);
+      currentUserList = await FriendsList.findOne({ userId: req.session.id });
+      return res.send(currentUserList?.friendsList);
     }
   }
 }

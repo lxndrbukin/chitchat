@@ -37,6 +37,7 @@ class _ProfilShortInfoButtons extends React.Component<
   }
 
   handleInsideClick = () => {
+    console.log('hi');
     this.setState({ showFriendSettings: !this.state.showFriendSettings });
   };
 
@@ -123,8 +124,6 @@ class _ProfilShortInfoButtons extends React.Component<
       return (
         <div
           ref={this.friendSettingsFrame}
-          onMouseOver={() => this.setState({ showFriendSettings: true })}
-          onMouseOut={() => this.setState({ showFriendSettings: false })}
           className='short-info-friend-settings-dropdown bg-zinc-700'
         >
           <button
@@ -156,14 +155,13 @@ class _ProfilShortInfoButtons extends React.Component<
   renderAddedFriendButton(): JSX.Element {
     return (
       <div className='short-info-friend-settings'>
-        <div ref={this.friendSettingsButton} className='button-wrapper'>
-          <Button
-            onMouseOver={() => this.setState({ showFriendSettings: true })}
-            onMouseOut={() => this.setState({ showFriendSettings: false })}
-            buttonType={'primary'}
-          >
+        <div
+          ref={this.friendSettingsButton}
+          onClick={this.handleInsideClick}
+          className='button-wrapper'
+        >
+          <Button buttonType={'primary'}>
             <FaUserCheck size={20} />
-            <FiChevronDown size={20} />
           </Button>
         </div>
         {this.renderFriendSettings()}

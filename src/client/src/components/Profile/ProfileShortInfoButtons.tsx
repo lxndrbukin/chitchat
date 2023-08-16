@@ -24,12 +24,16 @@ class _ProfilShortInfoButtons extends React.Component<
   ShortInfoButtonsState
 > {
   private friendSettingsFrame: React.RefObject<HTMLDivElement>;
-  private friendSettingsButton: React.RefObject<Button>;
+  private friendSettingsButton: React.RefObject<HTMLDivElement>;
   constructor(props: ShortInfoButtonsProps) {
     super(props);
     this.friendSettingsFrame = React.createRef<HTMLDivElement>();
-    this.friendSettingsButton = React.createRef<Button>();
+    this.friendSettingsButton = React.createRef<HTMLDivElement>();
     this.state = { showFriendSettings: false };
+  }
+
+  componentDidMount(): void {
+    document.addEventListener('click', this.handleOutsideClick);
   }
 
   handleInsideClick = () => {
@@ -67,7 +71,7 @@ class _ProfilShortInfoButtons extends React.Component<
     this.props.changeFriendStatus({ ...user, requestAction: 'Remove' });
   };
 
-  renderSettings(): JSX.Element | null {
+  renderEditProfileButton(): JSX.Element | null {
     const userId = (this.props.user.userData as UserProps)._id;
     const sessionId = (this.props.session.userData as UserProps)._id;
     if (userId === sessionId) {
@@ -123,7 +127,12 @@ class _ProfilShortInfoButtons extends React.Component<
           onMouseOut={() => this.setState({ showFriendSettings: false })}
           className='short-info-friend-settings-dropdown bg-zinc-700'
         >
-          <button onClick={this.removeFriend}>
+          <button
+            onClick={() => {
+              this.removeFriend();
+              this.handleInsideClick();
+            }}
+          >
             Unfriend <FaUserSlash size={20} />
           </button>
         </div>
@@ -147,15 +156,16 @@ class _ProfilShortInfoButtons extends React.Component<
   renderAddedFriendButton(): JSX.Element {
     return (
       <div className='short-info-friend-settings'>
-        <Button
-          ref={this.friendSettingsButton}
-          onMouseOver={() => this.setState({ showFriendSettings: true })}
-          onMouseOut={() => this.setState({ showFriendSettings: false })}
-          buttonType={'primary'}
-        >
-          <FaUserCheck size={20} />
-          <FiChevronDown size={20} />
-        </Button>
+        <div ref={this.friendSettingsButton} className='button-wrapper'>
+          <Button
+            onMouseOver={() => this.setState({ showFriendSettings: true })}
+            onMouseOut={() => this.setState({ showFriendSettings: false })}
+            buttonType={'primary'}
+          >
+            <FaUserCheck size={20} />
+            <FiChevronDown size={20} />
+          </Button>
+        </div>
         {this.renderFriendSettings()}
       </div>
     );
@@ -210,7 +220,7 @@ class _ProfilShortInfoButtons extends React.Component<
   render(): JSX.Element {
     return (
       <div className='short-info-buttons'>
-        {this.renderSettings()}
+        {this.renderEditProfileButton()}
         {this.renderMessageButton()}
         {this.renderFriendButton()}
       </div>

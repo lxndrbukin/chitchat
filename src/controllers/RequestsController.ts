@@ -87,7 +87,7 @@ class RequestsController {
         userId: req.body.userId,
         fullName: {
           firstName: req.body.firstName,
-          lastName: req.body.lastName
+          lastName: req.body.lastName,
         }
       };
       if (req.body.requestAction === 'Add') {

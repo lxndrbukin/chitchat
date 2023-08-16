@@ -28,6 +28,10 @@ export interface ShortInfoButtonsProps extends ShortInfoProps {
   changeFriendStatus: Function;
 }
 
+export interface ShortInfoButtonsState {
+  showFriendSettings: boolean;
+}
+
 export interface ProfileState {
   userId: string;
 }

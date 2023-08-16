@@ -1,11 +1,15 @@
 @import '../../assets/styling/variables.scss';
 
 .profile {
+
+  .profile-box-header {
+    font-weight: bold;
+  }
+
   .profile-section {
     width: 100%;
 
-    .profile-section-right {
-    }
+    .profile-section-right {}
 
     .profile-friends {
       display: flex;
@@ -54,15 +58,23 @@
             display: flex;
             flex-direction: column;
             background-color: $dark-grey-two;
+            position: relative;
 
             .short-info-friend-settings-dropdown {
               display: flex;
               flex-direction: column;
+              position: absolute;
+              top: 34px;
+              left: 0;
+              padding: $spacing-md;
+              margin-top: $spacing-sm;
+              border-radius: 0.5rem;
 
               button {
                 background-color: transparent;
                 border: none;
                 color: $white;
+                display: flex;
               }
             }
           }

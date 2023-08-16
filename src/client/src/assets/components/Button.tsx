@@ -32,7 +32,7 @@ export class Button extends React.Component<ButtonProps> {
     return (
       <button
         {...rest}
-        className={`${this.buttonTypes[this.props.buttonType]} ${
+        className={`custom-button ${this.buttonTypes[this.props.buttonType]} ${
           this.props.className
         } mx-0.5 flex flex-row`}
       >

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { ShortInfoButtonsProps } from './types';
+import { ShortInfoButtonsProps, ShortInfoButtonsState } from './types';
 import {
   UserProps,
   RootState,
@@ -19,9 +19,31 @@ import {
 import { AiFillMessage } from 'react-icons/ai';
 import { Button } from '../../assets/components/Button';
 
-class _ProfilShortInfoButtons extends React.Component<ShortInfoButtonsProps> {
-  state = {
-    showFriendSettings: false,
+class _ProfilShortInfoButtons extends React.Component<
+  ShortInfoButtonsProps,
+  ShortInfoButtonsState
+> {
+  private friendSettingsFrame: React.RefObject<HTMLDivElement>;
+  private friendSettingsButton: React.RefObject<Button>;
+  constructor(props: ShortInfoButtonsProps) {
+    super(props);
+    this.friendSettingsFrame = React.createRef<HTMLDivElement>();
+    this.friendSettingsButton = React.createRef<Button>();
+    this.state = { showFriendSettings: false };
+  }
+
+  handleInsideClick = () => {
+    this.setState({ showFriendSettings: !this.state.showFriendSettings });
+  };
+
+  handleOutsideClick = (e: MouseEvent): void => {
+    if (
+      this.friendSettingsFrame &&
+      !this.friendSettingsFrame.current?.contains(e.target as Element) &&
+      !this.friendSettingsButton.current?.contains(e.target as Element)
+    ) {
+      this.setState({ showFriendSettings: false });
+    }
   };
 
   changeFriendRequestStatus = (requestAction: string): void => {
@@ -74,7 +96,7 @@ class _ProfilShortInfoButtons extends React.Component<ShortInfoButtonsProps> {
 
   renderLoadingSpinner(): JSX.Element {
     return (
-      <Button style={{ height: '34px' }} buttonType={'primary'}>
+      <Button buttonType={'primary'}>
         <CgSpinner size={20} />
       </Button>
     );
@@ -96,9 +118,10 @@ class _ProfilShortInfoButtons extends React.Component<ShortInfoButtonsProps> {
     if (this.state.showFriendSettings) {
       return (
         <div
+          ref={this.friendSettingsFrame}
           onMouseOver={() => this.setState({ showFriendSettings: true })}
           onMouseOut={() => this.setState({ showFriendSettings: false })}
-          className='short-info-friend-settings-dropdown'
+          className='short-info-friend-settings-dropdown bg-zinc-700'
         >
           <button onClick={this.removeFriend}>
             Unfriend <FaUserSlash size={20} />
@@ -125,6 +148,7 @@ class _ProfilShortInfoButtons extends React.Component<ShortInfoButtonsProps> {
     return (
       <div className='short-info-friend-settings'>
         <Button
+          ref={this.friendSettingsButton}
           onMouseOver={() => this.setState({ showFriendSettings: true })}
           onMouseOut={() => this.setState({ showFriendSettings: false })}
           buttonType={'primary'}
@@ -142,10 +166,11 @@ class _ProfilShortInfoButtons extends React.Component<ShortInfoButtonsProps> {
     const loadingReqs = this.props.friendRequests.loading;
     const { received, sent } = this.props.friendRequests.requests;
     const friendsList = this.props.friendsList.list;
+    const loadingFriends = this.props.friendsList.loading;
     const userId = (this.props.user.userData as UserProps)._id;
     const sessionId = (this.props.session.userData as UserProps)._id;
     if (userId !== sessionId && loggedIn) {
-      if (loadingReqs) {
+      if (loadingReqs || loadingFriends) {
         return this.renderLoadingSpinner();
       }
       if (received.filter((req) => req.userId === userId).length > 0) {
@@ -185,6 +210,7 @@ class _ProfilShortInfoButtons extends React.Component<ShortInfoButtonsProps> {
   render(): JSX.Element {
     return (
       <div className='short-info-buttons'>
+        {this.renderSettings()}
         {this.renderMessageButton()}
         {this.renderFriendButton()}
       </div>

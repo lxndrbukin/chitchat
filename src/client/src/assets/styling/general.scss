@@ -7,4 +7,13 @@
   border-radius: 7px;
 }
 
-.button {}
+.custom-button {
+  display: flex;
+  justify-content: space-between;
+  min-height: 34px;
+
+  svg {
+    justify-self: center;
+    align-self: center;
+  }
+}

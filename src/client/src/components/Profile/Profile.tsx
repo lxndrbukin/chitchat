@@ -9,7 +9,6 @@ import {
   getFriendsList,
   getFriendRequests,
   RootState,
-  UserState,
 } from '../../store';
 import { ProfileShortInfo } from './ProfileShortInfo';
 import { ProfilePosts } from './ProfilePosts';
@@ -29,7 +28,9 @@ class _Profile extends React.Component<ProfileProps> {
 
   componentDidMount(): void {
     this.props.getUser(this.props.params.userId);
-    this.props.getFriendRequests(this.props.params.userId);
+    if (this.props.session.userData) {
+      this.props.getFriendRequests(this.props.session.userData._id);
+    }
     this.props.getFriendsList(this.props.params.userId);
   }
 

@@ -9,7 +9,6 @@ const initialState: UserState = {
   loading: false,
   loggedIn: false,
   userData: undefined,
-  error: '',
 };
 
 export const sessionSlice = createSlice({
@@ -19,10 +18,6 @@ export const sessionSlice = createSlice({
   extraReducers: (builder): void => {
     builder.addCase(getCurrentUser.fulfilled, (state: UserState, action: PayloadAction<UserProps>): void => {
       state.loading = false;
-      if (action.payload.error) {
-        state.error = action.payload.error;
-        return;
-      }
       state.loggedIn = true;
       state.userData = action.payload;
     });

@@ -18,7 +18,7 @@ export interface UserState {
   loading: boolean;
   loggedIn?: boolean;
   userData: UserProps | undefined;
-  error: string;
+  friendsList?: FriendsListState | undefined;
 }
 
 export interface FriendRequestsPayload {
@@ -47,7 +47,6 @@ export interface FriendRequestsState {
     sent: FriendRequestProps[];
     received: FriendRequestProps[];
   };
-  error: string;
 }
 
 export interface FriendProps {

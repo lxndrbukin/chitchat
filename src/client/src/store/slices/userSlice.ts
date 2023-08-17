@@ -5,7 +5,6 @@ import { getUser } from '../thunks/getUser';
 const initialState: UserState = {
   loading: false,
   userData: undefined,
-  error: ''
 };
 
 export const userSlice = createSlice({

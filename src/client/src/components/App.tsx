@@ -29,8 +29,7 @@ class _App extends React.Component<AppProps> {
 
   componentDidUpdate(
     prevProps: Readonly<AppProps>,
-    prevState: Readonly<{}>,
-    snapshot?: any
+    prevState: Readonly<{}>
   ): void {
     if (this.props.session.loggedIn) {
       this.props.getFriendRequests(
@@ -49,7 +48,7 @@ class _App extends React.Component<AppProps> {
             <Route path='/profile/:userId/edit' element={<ProfileEdit />} />
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<Signup />} />
-            <Route path='/chats/?user=:userId' element={<Chat />} />
+            <Route path='/chats/:userId' element={<Chat />} />
           </Routes>
         </div>
       </div>

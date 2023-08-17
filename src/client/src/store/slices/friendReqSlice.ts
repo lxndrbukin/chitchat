@@ -8,8 +8,7 @@ const initialState: FriendRequestsState = {
   requests: {
     sent: [],
     received: []
-  },
-  error: ''
+  }
 };
 
 export const friendReqSlice = createSlice({
